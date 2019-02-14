@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       style: { width: "0%" },
-      sliderWidth: 0,
+      sliderWidth: 0
     };
   },
   watch: {
@@ -29,20 +29,21 @@ export default {
       this.move(disX, lastWidth);
     },
     move(disX, lastWidth) {
-      document.addEventListener("touchmove", e => {
-        var distanceX = e.targetTouches[0].clientX - disX;
-        var percent = parseInt((distanceX / this.sliderWidth) * 100);
-        var value = lastWidth + percent;
-        this.setValue(value)
-      });
+      document.addEventListener("touchmove", this.moveFn.bind(this,[...arguments]));
+    },
+    moveFn([disX,lastWidth],$event) {
+      var distanceX = $event.targetTouches[0].clientX - disX;
+      var percent = parseInt((distanceX / this.sliderWidth) * 100);
+      var value = lastWidth + percent;
+      this.setValue(value);
     },
     setValue(value) {
       if (value > 100) {
-          value = 100;
-        }
-        if (value < 0) {
-          value = 0;
-        }
+        value = 100;
+      }
+      if (value < 0) {
+        value = 0;
+      }
       this.style.width = value + "%";
       this.$emit("input", value);
     },
@@ -52,6 +53,9 @@ export default {
   },
   mounted() {
     this.sliderWidth = this.$refs.sliderwrapper.offsetWidth;
+  },
+  destroyed() {
+    document.removeEventListener();
   }
 };
 </script>
