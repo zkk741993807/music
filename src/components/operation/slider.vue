@@ -33,16 +33,16 @@ export default {
         var distanceX = e.targetTouches[0].clientX - disX;
         var percent = parseInt((distanceX / this.sliderWidth) * 100);
         var value = lastWidth + percent;
-        if (value > 100) {
+        this.setValue(value)
+      });
+    },
+    setValue(value) {
+      if (value > 100) {
           value = 100;
         }
         if (value < 0) {
           value = 0;
         }
-        this.setValue(value)
-      });
-    },
-    setValue(value) {
       this.style.width = value + "%";
       this.$emit("input", value);
     },
