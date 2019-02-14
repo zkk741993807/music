@@ -47,24 +47,4 @@ export default {
     text-align: center;
     padding:10px 10px;
 }
-.index{
-    text-align: center;
-    font-size: 0px;
-}
-.index-item{
-    display: inline-block;
-    width:5px;
-    height:5px;
-    border-radius: 50%;
-    background: #bbb;
-
-}
-.index-item:nth-child(1){
-    margin-right:10px;
-}
-.index-active{
-    width:7px;
-    height:7px;
-    background: #888;
-}
 </style>

@@ -64,7 +64,7 @@ export default {
 .footer {
   height: 60px;
   flex-shrink: 0;
-  z-index: 1000;
+  /* z-index: 1000; */
 }
 .play {
   position: absolute;

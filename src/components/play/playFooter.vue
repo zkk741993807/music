@@ -1,26 +1,26 @@
 <template>
-    <div>
-        <my-progress v-model="value"></my-progress>
-        {{value}}
-        <button @click="value++">add</button>
-    </div>
+  <div>
+    <Slider v-model="value"></Slider>
+    {{value}}
+    <button @click="value++">add</button>
+  </div>
 </template>
 <script>
-import MyProgress from "../progress";
+import Slider from "../operation/slider";
 export default {
-    data(){
-        return {
-            value:0
-        }
-    },
-    components:{
-        MyProgress
-    }
-}
+  data() {
+    return {
+      value: 0
+    };
+  },
+  components: {
+    Slider
+  }
+};
 </script>
 
 <style scoped>
-button{
-    margin:30px;
+button {
+  margin: 30px;
 }
 </style>

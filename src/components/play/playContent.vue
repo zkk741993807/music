@@ -1,8 +1,10 @@
 <template>
   <div class="play-content">
     <div class="index" ref="index">
-      <span class="index-item"></span>
-      <span class="index-item"></span>
+      
+      <span class="active-item"></span>
+      <span class="static-item"></span>
+      <span class="static-item"></span>
     </div>
     <div class="wrapper">
       <ul class="play-wrapper" @touchstart.prevent>
@@ -48,16 +50,34 @@ export default {
 .index {
   text-align: center;
   font-size: 0px;
+  width:20px;
+  margin:0px auto 20px;
+  position: relative;
+  height:7px;
 }
-.index-item {
-  display: inline-block;
-  width: 5px;
-  height: 5px;
+.static-item{
+  position: absolute;
+  width:6px;
+  height:6px;
+  background: #ddd;
+  top:50%;
   border-radius: 50%;
-  background: #bbb;
+  z-index:0;
+  transform: translate(0,-50%)
 }
-.index-item:nth-child(1) {
-  margin-right: 10px;
+.index .static-item:nth-of-type(2){
+  left:0px;
+}
+.index .static-item:nth-of-type(3){
+  right:0px;
+}
+.active-item {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #888;
+  position: relative;
+  z-index:1000;
 }
 .index-active {
   width: 7px;
@@ -67,9 +87,16 @@ export default {
 .play-content {
   width: 100%;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.wrapper{
+  flex-grow: 1;
 }
 .play-wrapper {
   width: 200%;
+  height:100%;
 }
 .play-wrapper::after {
   content: "";
@@ -80,13 +107,14 @@ export default {
 .lyric-wrapper {
   width: 50%;
   float: left;
+  height: 100%;
 }
 .pic {
   width: 0px;
   height: 0px;
   padding: 40%;
   position: relative;
-  margin: 0 auto;
+  margin: 10px auto 0px;
 }
 .pic img {
   position: absolute;
