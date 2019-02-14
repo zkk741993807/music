@@ -117,6 +117,10 @@ export default {
   created() {
     this.getData(this.currentTags);
   },
+  mounted(){
+    
+
+  },
   updated() {
     if (this.style) {
       return;
