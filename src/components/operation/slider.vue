@@ -2,7 +2,7 @@
   <div class="progress">
     <div class="progress-wrapper" ref="sliderwrapper">
       <div class="slider" :style="style">
-        <div class="slider-button" @touchstart="start"></div>
+        <div class="slider-button" @touchstart.stop="start" @touchend="end"></div>
       </div>
     </div>
   </div>
@@ -13,28 +13,42 @@ export default {
   data() {
     return {
       style: { width: "0%" },
-      sliderWidth: 0
+      sliderWidth: 0,
+      disX:0,
+      lastWidth:0,
+      firstStart:true
     };
   },
   watch: {
     value(value) {
-      console.log(value);
       this.setValue(value);
     }
   },
   methods: {
     start(e) {
-      var disX = e.targetTouches[0].clientX;
-      var lastWidth = parseInt(this.style.width);
-      this.move(disX, lastWidth);
+      console.log(e);
+      this.disX = e.targetTouches[0].clientX;
+      this.lastWidth = parseInt(this.style.width);
+      if(!this.firstStart){
+        return 
+      }
+      this.firstStart=false;
+      this.move();
     },
-    move(disX, lastWidth) {
-      document.addEventListener("touchmove", this.moveFn.bind(this,[...arguments]));
+    move() {
+      console.log("move")
+      document.addEventListener(
+        "touchmove",
+        this.moveFn.bind(this)
+      );
     },
-    moveFn([disX,lastWidth],$event) {
-      var distanceX = $event.targetTouches[0].clientX - disX;
-      var percent = parseInt((distanceX / this.sliderWidth) * 100);
-      var value = lastWidth + percent;
+    end() {
+      document.removeEventListener("touchmove", this.moveFn);
+    },
+    moveFn(event) {
+      var distanceX = event.targetTouches[0].clientX - this.disX;
+      var percent = parseInt(distanceX / this.sliderWidth * 100);
+      var value = this.lastWidth + percent;
       this.setValue(value);
     },
     setValue(value) {
@@ -53,9 +67,6 @@ export default {
   },
   mounted() {
     this.sliderWidth = this.$refs.sliderwrapper.offsetWidth;
-  },
-  destroyed() {
-    document.removeEventListener();
   }
 };
 </script>

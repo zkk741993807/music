@@ -32,6 +32,7 @@ export default {
 }
 .title-wrapper{
     padding:5px;
+    overflow: hidden;
 }
 .title {
   font-size: 26px;
@@ -45,6 +46,6 @@ export default {
 }
 .name{
     text-align: center;
-    padding:10px 10px;
+    padding:0px 10px 10px 10px;
 }
 </style>
