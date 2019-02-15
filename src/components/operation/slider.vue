@@ -14,9 +14,8 @@ export default {
     return {
       style: { width: "0%" },
       sliderWidth: 0,
-      disX:0,
-      lastWidth:0,
-      firstStart:true
+      disX: 0,
+      lastWidth: 0
     };
   },
   watch: {
@@ -26,21 +25,13 @@ export default {
   },
   methods: {
     start(e) {
-      console.log(e);
       this.disX = e.targetTouches[0].clientX;
       this.lastWidth = parseInt(this.style.width);
-      if(!this.firstStart){
-        return 
-      }
-      this.firstStart=false;
       this.move();
     },
     move() {
-      console.log("move")
-      document.addEventListener(
-        "touchmove",
-        this.moveFn.bind(this)
-      );
+      console.log("move");
+      document.addEventListener("touchmove", this.moveFn);
     },
     end() {
       document.removeEventListener("touchmove", this.moveFn);
