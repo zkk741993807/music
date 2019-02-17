@@ -1,5 +1,5 @@
 <template>
-  <div class="progress">
+  <div class="progress" @touchstart="point">
     <div class="progress-wrapper" ref="sliderwrapper">
       <div class="slider" :style="style">
         <div class="slider-button" @touchstart.stop="start" @touchend="end"></div>
@@ -15,7 +15,8 @@ export default {
       style: { width: "0%" },
       sliderWidth: 0,
       disX: 0,
-      lastWidth: 0
+      lastWidth: 0,
+      sliderLeft: 0
     };
   },
   watch: {
@@ -38,7 +39,7 @@ export default {
     },
     moveFn(event) {
       var distanceX = event.targetTouches[0].clientX - this.disX;
-      var percent = parseInt(distanceX / this.sliderWidth * 100);
+      var percent = parseInt((distanceX / this.sliderWidth) * 100);
       var value = this.lastWidth + percent;
       this.setValue(value);
     },
@@ -54,9 +55,16 @@ export default {
     },
     getValue() {
       return this.style.width;
+    },
+    point(e) {
+      var point = e.touches[0].clientX - this.sliderLeft;
+      var percent = parseInt((point / this.sliderWidth) * 100);
+      console.log(e);
+      this.setValue(percent);
     }
   },
   mounted() {
+    this.sliderLeft = this.$refs.sliderwrapper.getBoundingClientRect().left;
     this.sliderWidth = this.$refs.sliderwrapper.offsetWidth;
   }
 };
@@ -65,12 +73,17 @@ export default {
 .progress {
   width: 300px;
   margin: 0 auto;
+  position: relative;
+  height: 20px;
 }
 .progress-wrapper {
   height: 6px;
+  width:100%;
   background: #ccc;
-  position: relative;
+  position:absolute;
   border-radius: 3px;
+  top:50%;
+  margin-top:-3px;
 }
 .slider {
   height: 100%;

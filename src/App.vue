@@ -3,7 +3,8 @@
     <my-header class="header"></my-header>
     <my-content class="content"></my-content>
     <my-footer class="footer"></my-footer>
-    <play class="play"></play>
+    <play class="play" ref="play">
+    </play>
     <more-alert v-if="moreAlertTitle" class="more-alert"></more-alert>
   </div>
 </template>
@@ -15,7 +16,7 @@ import MyFooter from "./footer";
 import MoreAlert from "./moreAlert";
 import Play from "./components/play";
 import { mapState } from "vuex";
-
+import DropDown from "./assets/util/dropDown";
 export default {
   name: "app",
   data() {
@@ -32,6 +33,13 @@ export default {
     MyFooter,
     MoreAlert,
     Play
+  },
+  mounted() {
+    // DropDown(this.$refs);
+    var play = this.$refs.play;
+    var children=play.$children.$el;
+    console.log(this.$refs);
+    new DropDown(children, play.$el);
   }
 };
 </script>
@@ -64,10 +72,11 @@ export default {
 .footer {
   height: 60px;
   flex-shrink: 0;
-  /* z-index: 1000; */
+  z-index: 1000;
 }
 .play {
   position: absolute;
+  transform: translate(0, 80%);
 }
 .more-alert {
   position: absolute;

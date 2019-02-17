@@ -2,11 +2,12 @@
   <div>
     <Slider v-model="value"></Slider>
     {{value}}
-    <button @click="value++">add</button>
+    <play-operation></play-operation>
   </div>
 </template>
 <script>
 import Slider from "../operation/slider";
+import PlayOperation from "../operation/playOperation";
 export default {
   data() {
     return {
@@ -14,7 +15,8 @@ export default {
     };
   },
   components: {
-    Slider
+    Slider,
+    PlayOperation
   }
 };
 </script>
