@@ -24,7 +24,7 @@ export default {
 
 <style scoped>
 .header-wrapper {
-  padding-top: 20px;
+  padding-top: 10px;
 }
 .iconfont {
   font-size: 40px;

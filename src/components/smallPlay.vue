@@ -10,7 +10,7 @@
       </div>
       <div class="controller">
         <div class="play-pause" @click="isPlay=!isPlay">
-          <span class="iconfont">{{isPlay ?"&#xe803;":"&#xe69d;"}}</span>
+          <span class="iconfont">{{isPlay ?"&#xe804;":"&#xe69d;"}}</span>
         </div>
       </div>
       <div class="controller">
@@ -82,7 +82,7 @@ export default {
     align-items: center;
 }
 .controller .iconfont {
-  font-size: 28px;
-  margin-top:6px;
+  font-size: 22px;
+  margin-top:5px;
 }
 </style>

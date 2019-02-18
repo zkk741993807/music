@@ -20,7 +20,7 @@ export default {
   name: "app",
   data() {
     return {
-      clientHeight:document.body.clientHeight,
+      clientHeight: document.body.clientHeight,
       transform: "translate(0, 0)"
     };
   },
@@ -37,18 +37,22 @@ export default {
     Play
   },
   mounted() {
-    // DropDown(this.$refs);
     var play = this.$refs.play;
-    var children=play.$children[0].$el;
-    var smallPlayHeight=children.offsetHeight;
-    console.log(smallPlayHeight)
-    var footerHeight=this.$refs.footer.$el.offsetHeight;
-    var percent= 100-(footerHeight+smallPlayHeight)/this.clientHeight*100;
-
-    this.transform="translate(0,"+percent+"%)";
-    console.log(smallPlayHeight);
-    var dropDown=new DropDown(children,play.$el,footerHeight);
-
+    var smallPlay = play.$children[0].$el;
+    var normallPlay = play.$children[1].$el;
+    var footer = this.$refs.footer.$el;
+    var smallPlayHeight = smallPlay.offsetHeight;
+    var footerHeight = footer.offsetHeight;
+    var percent =
+      100 - ((footerHeight + smallPlayHeight) / this.clientHeight) * 100;
+    this.transform = "translate(0," + percent + "%)";
+    new DropDown(smallPlay, play.$el, footerHeight, function(dis) {
+      var temp = this.clientHeight - dis - smallPlayHeight - footerHeight;
+      smallPlay.style.opacity = 1 - temp / 100;
+      footer.style.opacity = 1 - temp / 100;
+      footer.style.zIndex = dis; //让footer衬与底层避免点击到
+      normallPlay.style.opacity = temp / 100;
+    });
   }
 };
 </script>
@@ -81,7 +85,7 @@ export default {
 .footer {
   height: 60px;
   flex-shrink: 0;
-  z-index: 1000;
+  z-index: 1;
 }
 .play {
   position: absolute;

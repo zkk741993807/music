@@ -1,27 +1,26 @@
-function DropDown(side, obj,height) {
+function DropDown(side, obj, height, fn) {
     this.el = obj;
     this.side = side;
-    this.height=height+this.side.offsetHeight;
+    this.height = height + this.side.offsetHeight;
     this.clientHeight = document.body.clientHeight;
-    this.lastTime = null;
-    this.startPos = null;
+    this.lastTime = 0;
+    this.startPos = 0;
     this.startBind = null;
     this.moveBind = null;
     this.endBind = null;
     this.currentPosition = "bottom"//判定el是全显示还是隐藏到下部
     this.over = true; //判断elastic动画是否完成
+    this.fn = fn || function () { };
     this.init();
 }
 DropDown.prototype.init = function () {
     this.startBind = this.start.bind(this);
     this.moveBind = this.move.bind(this);
     this.endBind = this.end.bind(this);
-    console.log(this.side)
     this.el.addEventListener("touchstart", this.startBind);
 
 }
 DropDown.prototype.start = function (e) {
-    console.log(this.over)
     if (!this.over) {
         return;
     }
@@ -32,14 +31,10 @@ DropDown.prototype.start = function (e) {
     } else {
         this.currentPosition = "bottom";
     }
-    console.log(e)
-    if (this.side.contains(e.target)&&this.currentPosition == "bottom" || this.currentPosition == "top") {
-        console.log(1)
-        this.startPos = e.changedTouches[0].clientY+this.height;
-        this.lastTime = new Date().getTime();
-        this.el.addEventListener("touchmove", this.moveBind);
 
-    }
+    this.startPos = e.changedTouches[0].clientY + (currentPos == 0 ? 0 : this.height);
+    this.lastTime = new Date().getTime();
+    this.el.addEventListener("touchmove", this.moveBind);
 }
 DropDown.prototype.move = function (e) {
     if (!this.over) {
@@ -47,11 +42,16 @@ DropDown.prototype.move = function (e) {
     }
     var movePos = e.changedTouches[0].clientY;
     var dis = this.startPos - movePos;
-    console.log(dis);
-    if (this.currentPosition == "top" && dis < 0 || this.currentPosition == "bottom" && dis > 0) {//保证el在铺满屏也就是在top状态下不能上划
-        var m = (this.clientHeight - dis) % this.clientHeight;                                    //el 隐藏在下方时也就是bottom状态下不能下划
-        this.el.style.transform = "translate(0px," + m + "px)";
+    if (this.currentPosition == "top" && dis < 0 ||
+        this.currentPosition == "bottom" && dis - this.height > 0) {//保证el在铺满屏也就是在top状态下不能上划
+        var m = (this.clientHeight - dis) % this.clientHeight;      //el 隐藏在下方时也就是bottom状态下不能下划
+        console.log(m, this.clientHeight)
+        if (m <= this.clientHeight - this.height) {
+            this.el.style.transform = "translate(0px," + m + "px)";
+        }
+
         this.el.addEventListener("touchend", this.endBind);
+        this.fn(m);
     }
 }
 DropDown.prototype.end = function (e) {
@@ -69,13 +69,10 @@ DropDown.prototype.end = function (e) {
             diffPos = -diffPos;
         }
     }
-    this.elastic(diffPos, function () {
-        this.over = true;
-        this.el.removeEventListener("touchmove", this.moveBind);
-        this.el.removeEventListener("touchend", this.endBind);
-    });
+    //动画完成回调
+    this.elastic(diffPos);
 }
-DropDown.prototype.getCurrentPosition=function(){
+DropDown.prototype.getCurrentPosition = function () {
     return this.currentPos;
 }
 DropDown.prototype.getTransform = function () {
@@ -83,7 +80,7 @@ DropDown.prototype.getTransform = function () {
     var str = window.getComputedStyle(this.el, false)["transform"];
     return str.match(reg)[0].split(",");
 }
-DropDown.prototype.elastic = function (flag, fn) {
+DropDown.prototype.elastic = function (flag) {
     this.over = false;
     var targetPos = flag > 0 ? 0 : this.clientHeight - this.height;//判断是向上滑还是向下滑
     var _this = this;
@@ -95,10 +92,13 @@ DropDown.prototype.elastic = function (flag, fn) {
         if (!speed || currentPos == targetPos) {
             obj.style.transform = "translate(0," + targetPos + "px)"
             clearInterval(obj.time);
-            fn && fn.call(_this)//确定动画完成
+            _this.over = true;
+            _this.el.removeEventListener("touchmove", this.moveBind);
+            _this.el.removeEventListener("touchend", this.endBind);//确定动画完成
         } else {
             obj.style.transform = "translate(0," + (currentPos + speed) + "px)"
+            _this.fn(currentPos + speed)
         }
     }, 30)
 }
- export default DropDown;
+export default DropDown;

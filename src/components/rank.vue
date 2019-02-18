@@ -76,7 +76,6 @@ export default {
   border-bottom: 1px solid #ddd;
 }
 .more {
-  /* width: 40px; */
   font-size: 20px;
   padding:0px 7px;
 }
