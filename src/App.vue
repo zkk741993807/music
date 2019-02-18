@@ -40,9 +40,9 @@ export default {
     // DropDown(this.$refs);
     var play = this.$refs.play;
     var children=play.$children[0].$el;
-    var smallPlayHeight=children.clientHeight;
+    var smallPlayHeight=children.offsetHeight;
     console.log(smallPlayHeight)
-    var footerHeight=this.$refs.footer.$el.clientHeight;
+    var footerHeight=this.$refs.footer.$el.offsetHeight;
     var percent= 100-(footerHeight+smallPlayHeight)/this.clientHeight*100;
 
     this.transform="translate(0,"+percent+"%)";
