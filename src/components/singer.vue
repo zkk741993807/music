@@ -143,12 +143,11 @@ export default {
 .singer-wrapper {
   width: 100%;
   height: 100%;
-  overflow: scroll;
+
 }
 .singer {
   height: 100%;
   width: 100%;
-  overflow: scroll;
 }
 .singer-assortment {
   box-sizing: border-box;

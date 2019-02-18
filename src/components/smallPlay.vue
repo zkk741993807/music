@@ -34,10 +34,11 @@ export default {
 .smllplay-wrapper {
   display: flex;
   height: 100%;
-  padding: 8px 18px;
+  padding: 4px 18px;
+  align-items: center;
 }
 .pic {
-  padding: 7%;
+  padding: 6%;
   width: 0px;
   height: 0px;
   border-radius: 50%;
@@ -68,16 +69,12 @@ export default {
 .controller {
   width: 0px;
   height: 0px;
-  padding:6%;
+  padding:5%;
   background: #eee;
   border-radius: 50%;
-  position:relative;
   margin-left: 20px;
 }
 .controller  .play-pause , .next{
-    position:absolute;
-    top:0px;
-    left:0px;
     width:100%;
     height:100%;
     display: flex;

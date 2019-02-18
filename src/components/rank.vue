@@ -47,7 +47,6 @@ export default {
 .rank-wrapper {
   width: 100%;
   height: 100%;
-  overflow: scroll;
 }
 .rank-list-item {
   box-sizing: border-box;
@@ -77,8 +76,9 @@ export default {
   border-bottom: 1px solid #ddd;
 }
 .more {
-  width: 40px;
+  /* width: 40px; */
   font-size: 20px;
+  padding:0px 7px;
 }
 .more .iconfont {
   font-size: 24px;

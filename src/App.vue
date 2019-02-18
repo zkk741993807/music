@@ -2,9 +2,8 @@
   <div id="app">
     <my-header class="header"></my-header>
     <my-content class="content"></my-content>
-    <my-footer class="footer"></my-footer>
-    <play class="play" ref="play">
-    </play>
+    <my-footer class="footer" ref="footer"></my-footer>
+    <play class="play" ref="play" :style="{transform}"></play>
     <more-alert v-if="moreAlertTitle" class="more-alert"></more-alert>
   </div>
 </template>
@@ -20,7 +19,10 @@ import DropDown from "./assets/util/dropDown";
 export default {
   name: "app",
   data() {
-    return {};
+    return {
+      clientHeight:document.body.clientHeight,
+      transform: "translate(0, 0)"
+    };
   },
   computed: {
     ...mapState({
@@ -37,9 +39,16 @@ export default {
   mounted() {
     // DropDown(this.$refs);
     var play = this.$refs.play;
-    var children=play.$children.$el;
-    console.log(this.$refs);
-    new DropDown(children, play.$el);
+    var children=play.$children[0].$el;
+    var smallPlayHeight=children.clientHeight;
+    console.log(smallPlayHeight)
+    var footerHeight=this.$refs.footer.$el.clientHeight;
+    var percent= 100-(footerHeight+smallPlayHeight)/this.clientHeight*100;
+
+    this.transform="translate(0,"+percent+"%)";
+    console.log(smallPlayHeight);
+    var dropDown=new DropDown(children,play.$el,footerHeight);
+
   }
 };
 </script>
@@ -67,7 +76,7 @@ export default {
 .content {
   flex-grow: 1;
   padding: 0px 8px;
-  overflow: hidden;
+  overflow: scroll;
 }
 .footer {
   height: 60px;
@@ -76,7 +85,7 @@ export default {
 }
 .play {
   position: absolute;
-  transform: translate(0, 80%);
+  /* transform: translate(0, 90%); */
 }
 .more-alert {
   position: absolute;

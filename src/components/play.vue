@@ -26,4 +26,13 @@ export default {
   height: 100vh;
   background: #fff;
 }
+.small-play{
+  position: absolute;
+  width:100%;
+  z-index: 1000;
+  background: #fff;
+}
+.normal-play{
+  opacity: 0;
+}
 </style>

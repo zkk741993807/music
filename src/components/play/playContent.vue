@@ -26,11 +26,11 @@ import IScroll from "iscroll";
 export default {
   methods: {},
   updated() {
-      console.log(this.$refs)
+    console.log(this.$refs);
   },
   mounted() {
-      console.log(this.$refs)
-      var _this=this;
+    console.log(this.$refs);
+    var _this = this;
     var myScroll = new IScroll(".wrapper", {
       scrollX: true,
       scrollY: false,
@@ -38,8 +38,8 @@ export default {
       snap: true,
       snapSpeed: 400,
       indicators: {
-          el: _this.$refs.index,
-          resize: false
+        el: _this.$refs.index,
+        resize: false
       }
     });
   }
@@ -50,26 +50,26 @@ export default {
 .index {
   text-align: center;
   font-size: 0px;
-  width:20px;
-  margin:0px auto 20px;
+  width: 20px;
+  margin: 0px auto 20px;
   position: relative;
-  height:7px;
+  height: 7px;
 }
-.static-item{
+.static-item {
   position: absolute;
-  width:6px;
-  height:6px;
+  width: 6px;
+  height: 6px;
   background: #ddd;
-  top:50%;
+  top: 50%;
   border-radius: 50%;
-  z-index:0;
-  transform: translate(0,-50%)
+  z-index: 0;
+  transform: translate(0, -50%);
 }
-.index .static-item:nth-of-type(2){
-  left:0px;
+.index .static-item:nth-of-type(2) {
+  left: 0px;
 }
-.index .static-item:nth-of-type(3){
-  right:0px;
+.index .static-item:nth-of-type(3) {
+  right: 0px;
 }
 .active-item {
   width: 7px;
@@ -77,7 +77,7 @@ export default {
   border-radius: 50%;
   background: #888;
   position: relative;
-  z-index:1000;
+  z-index: 1000;
 }
 .index-active {
   width: 7px;
@@ -91,12 +91,12 @@ export default {
   flex-direction: column;
   flex-wrap: wrap;
 }
-.wrapper{
+.wrapper {
   flex-grow: 1;
 }
 .play-wrapper {
   width: 200%;
-  height:100%;
+  height: 100%;
 }
 .play-wrapper::after {
   content: "";
