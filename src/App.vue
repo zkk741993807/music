@@ -16,6 +16,7 @@ import MoreAlert from "./moreAlert";
 import Play from "./components/play";
 import { mapState } from "vuex";
 import DropDown from "./assets/util/dropDown";
+import getMedia from "./assets/js/getMedia"
 export default {
   name: "app",
   data() {
@@ -23,6 +24,9 @@ export default {
       clientHeight: document.body.clientHeight,
       transform: "translate(0, 0)"
     };
+  },
+  created(){
+    //var mediaUrl=getMedia(songmid,strMediaMid)
   },
   computed: {
     ...mapState({

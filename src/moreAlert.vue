@@ -13,7 +13,7 @@
           <span
             class="iconfont"
             :style="{ color:loveState?'red':''}"
-          >{{ loveState ? "&#xe6ca;" : "&#xe605;" }}</span>
+          >{{ loveState ? "&#xe6ca;" : "&#xe6c9;" }}</span>
           添加至我喜欢
         </li>
         <li class="item">

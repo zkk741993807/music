@@ -28,9 +28,5 @@ export default new VueRouter({
             path:"/myInfo",
             component:MyInfo
         },
-        {
-            path:"/rank/:id",
-            name:"ge",
-        },
     ]
 })

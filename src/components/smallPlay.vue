@@ -8,14 +8,14 @@
         <span class="name">告白气球</span>
         <span class="singer">周杰伦-告白气球</span>
       </div>
-      <div class="controller">
-        <div class="play-pause" @click="isPlay=!isPlay">
+      <div class="controller" @click.stop="stop">
+        <div class="play-pause" @click.stop="isPlay=!isPlay">
           <span class="iconfont">{{isPlay ?"&#xe804;":"&#xe69d;"}}</span>
         </div>
       </div>
-      <div class="controller">
-        <div class="next">
-          <span class="iconfont">&#xe7ff;</span>
+      <div class="controller" @click.stop>
+        <div class="next" @click.stop>
+          <span class="iconfont" @click.stop>&#xe7ff;</span>
         </div>
       </div>
     </div>
@@ -27,7 +27,13 @@ export default {
         return {
             isPlay:true
         }
-    }
+    },
+    methods: {
+      stop(e){
+        e.stopPropagation();
+        console.log(1)
+      }
+    },
 };
 </script>
 <style scoped>
@@ -83,6 +89,6 @@ export default {
 }
 .controller .iconfont {
   font-size: 22px;
-  margin-top:5px;
+  /* margin-top:5px; */
 }
 </style>

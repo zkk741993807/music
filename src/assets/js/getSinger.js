@@ -1,7 +1,6 @@
 import Jsonp from "../util/jsonp"
 
 export default function (tags, fn) {
-    console.log(tags)
     var cb = "callBack"
     var option = { "area": -100, "sex": -100, "genre": -100, "index": -100, "sin": 0, "cur_page": 1 };
     if (typeof tags == "object") {

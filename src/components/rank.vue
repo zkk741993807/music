@@ -2,7 +2,7 @@
   <div class="rank-wrapper">
     <ul>
       <li class="rank-list-item" v-for=" item in songList" :key="item.cur_count">
-        <router-link :to="{name:'ge',params:{id:1}}">
+        <a :href="'#songmid='+item.data.songmid+'&strMediaMid='+item.data.strMediaMid" @click="play">
           <div class="item-index">{{item.cur_count}}</div>
           <div class="item-info">
             <p class="list-song">{{item.data.songname}}</p>
@@ -12,7 +12,7 @@
               >{{singer.name}}{{index==item.data.singer.length-1?"":"/"}}</template>
             </span>
           </div>
-        </router-link>
+        </a>
         <div class="more" @click="changeMoreAlertState(item.data.songname)">
           <span class="iconfont">&#xe634;</span>
         </div>
@@ -39,6 +39,9 @@ export default {
     changeMoreAlertState(name) {
       console.log(name);
       this.$store.commit("showMoreAlert", name);
+    },
+    play(e){
+      console.log(e)
     }
   }
 };

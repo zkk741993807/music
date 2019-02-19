@@ -4,7 +4,8 @@ function DropDown(side, obj, height, fn) {
     this.height = height + this.side.offsetHeight;
     this.clientHeight = document.body.clientHeight;
     this.lastTime = 0;
-    this.startPos = 0;
+    this.startPosY = 0;
+    this.startPosX = 0;
     this.startBind = null;
     this.moveBind = null;
     this.endBind = null;
@@ -17,8 +18,8 @@ DropDown.prototype.init = function () {
     this.startBind = this.start.bind(this);
     this.moveBind = this.move.bind(this);
     this.endBind = this.end.bind(this);
-    this.el.addEventListener("touchstart", this.startBind);
-
+    document.addEventListener("touchstart", this.startBind);
+    console.log(this.el)
 }
 DropDown.prototype.start = function (e) {
     if (!this.over) {
@@ -32,7 +33,8 @@ DropDown.prototype.start = function (e) {
         this.currentPosition = "bottom";
     }
 
-    this.startPos = e.changedTouches[0].clientY + (currentPos == 0 ? 0 : this.height);
+    this.startPosY = e.changedTouches[0].clientY + (currentPos == 0 ? 0 : this.height);
+    this.startPosX = e.changedTouches[0].clientX
     this.lastTime = new Date().getTime();
     this.el.addEventListener("touchmove", this.moveBind);
 }
@@ -40,37 +42,44 @@ DropDown.prototype.move = function (e) {
     if (!this.over) {
         return;
     }
-    var movePos = e.changedTouches[0].clientY;
-    var dis = this.startPos - movePos;
-    if (this.currentPosition == "top" && dis < 0 ||
-        this.currentPosition == "bottom" && dis - this.height > 0) {//保证el在铺满屏也就是在top状态下不能上划
-        var m = (this.clientHeight - dis) % this.clientHeight;      //el 隐藏在下方时也就是bottom状态下不能下划
-        console.log(m, this.clientHeight)
+    var movePosY = e.changedTouches[0].clientY;
+    var movePosX = e.changedTouches[0].clientX;
+    var disY = this.startPosY - movePosY;
+    var disX = this.startPosX - movePosX;
+    if(Math.abs(disY)<Math.abs(disX)){
+        return ;
+    }
+    if (this.currentPosition == "top" && disY < 0 ||
+        this.currentPosition == "bottom" && disY - this.height > 0) {//保证el在铺满屏也就是在top状态下不能上划
+        var m = (this.clientHeight - disY) % this.clientHeight;      //el 隐藏在下方时也就是bottom状态下不能下划
+        console.log(1)
         if (m <= this.clientHeight - this.height) {
             this.el.style.transform = "translate(0px," + m + "px)";
         }
-
-        this.el.addEventListener("touchend", this.endBind);
+        document.addEventListener("touchend", this.endBind);
         this.fn(m);
     }
 }
 DropDown.prototype.end = function (e) {
+    console.log(2)
     if (!this.over) {
         return;
     }
-    var endPos = e.changedTouches[0].clientY;
+    var endPosY = e.changedTouches[0].clientY;
+    // var endPosX = e.changedTouches[0].clientX;
     var newTime = new Date().getTime();
     var time = newTime - this.lastTime;
-    var diffPos = this.startPos - endPos;
-    var absDiffPos = Math.abs(diffPos);
-    var ratioValue = absDiffPos / time * 10;//滑动速度
-    if (ratioValue < 8) {
-        if (absDiffPos <= this.clientHeight / 2) {
-            diffPos = -diffPos;
+    var diffPosY = this.startPosY - endPosY;
+    // var diffPosX = this.startPosX - endPosX;
+    var absDiffPosY = Math.abs(diffPosY);
+    var ratioValue = absDiffPosY / time * 10;//滑动速度
+    //console.log(diffPos)
+    if (ratioValue>4&&ratioValue < 10) {
+        if (absDiffPosY <= this.clientHeight / 2) {
+            diffPosY = -diffPosY;
         }
     }
-    //动画完成回调
-    this.elastic(diffPos);
+    this.elastic(diffPosY);
 }
 DropDown.prototype.getCurrentPosition = function () {
     return this.currentPos;
@@ -93,8 +102,8 @@ DropDown.prototype.elastic = function (flag) {
             obj.style.transform = "translate(0," + targetPos + "px)"
             clearInterval(obj.time);
             _this.over = true;
-            _this.el.removeEventListener("touchmove", this.moveBind);
-            _this.el.removeEventListener("touchend", this.endBind);//确定动画完成
+            _this.el.removeEventListener("touchmove", _this.moveBind);
+            document.removeEventListener("touchend", _this.endBind);//确定动画完成
         } else {
             obj.style.transform = "translate(0," + (currentPos + speed) + "px)"
             _this.fn(currentPos + speed)

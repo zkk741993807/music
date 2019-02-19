@@ -67,7 +67,7 @@ export default {
   display: flex;
   height: 60px;
   text-align: center;
-  line-height: 57px;
+  line-height: 50px;
   padding:8px 0px 14px 0px;
 }
 .operation-wrapper .item {
@@ -92,6 +92,7 @@ export default {
   display: inline-block;
   width: 60px;
   height: 60px;
+  line-height: 60px;
   border-radius: 50%;
   background: #ccc;
 }
