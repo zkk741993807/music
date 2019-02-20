@@ -2,7 +2,7 @@
   <div class="rank-wrapper">
     <ul>
       <li class="rank-list-item" v-for=" item in songList" :key="item.cur_count">
-        <a :href="'#songmid='+item.data.songmid+'&strMediaMid='+item.data.strMediaMid" @click="play">
+        <a href="#" @click="play(item.data.songmid,item.data.strMediaMid)">
           <div class="item-index">{{item.cur_count}}</div>
           <div class="item-info">
             <p class="list-song">{{item.data.songname}}</p>
@@ -22,6 +22,7 @@
 </template>
 <script>
 import getRank from "../assets/js/getRank";
+import getMedia from "../assets/js/getMedia";
 export default {
   data() {
     return {
@@ -31,17 +32,17 @@ export default {
   },
   created() {
     getRank(this.page, data => {
-      console.log(data);
       this.songList = data.songlist;
     });
   },
   methods: {
     changeMoreAlertState(name) {
-      console.log(name);
       this.$store.commit("showMoreAlert", name);
     },
-    play(e){
-      console.log(e)
+    play(songmid, strMediaMid) {
+      getMedia(songmid, strMediaMid, url => {
+        this.$store.commit("setMediaUrl", url);
+      });
     }
   }
 };
@@ -80,7 +81,7 @@ export default {
 }
 .more {
   font-size: 20px;
-  padding:0px 7px;
+  padding: 0px 7px;
 }
 .more .iconfont {
   font-size: 24px;
