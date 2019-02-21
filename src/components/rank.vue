@@ -2,7 +2,7 @@
   <div class="rank-wrapper">
     <ul>
       <li class="rank-list-item" v-for=" item in songList" :key="item.cur_count">
-        <a href="#" @click="play(item.data.songmid,item.data.strMediaMid)">
+        <a href="#" @click="play(item.data)">
           <div class="item-index">{{item.cur_count}}</div>
           <div class="item-info">
             <p class="list-song">{{item.data.songname}}</p>
@@ -39,8 +39,9 @@ export default {
     changeMoreAlertState(name) {
       this.$store.commit("showMoreAlert", name);
     },
-    play(songmid, strMediaMid) {
-      getMedia(songmid, strMediaMid, url => {
+    play(data) {
+      this.$store.commit("setCurrentPlayInfo",data);
+      getMedia(data.songmid, data.strMediaMid, url => {
         this.$store.commit("setMediaUrl", url);
       });
     }

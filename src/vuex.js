@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         moreAlertTitle: "",
-        mediaUrl:""
+        mediaUrl:"",
+        currentPlayInfo:""
     },
     mutations: {
         showMoreAlert(state,name) {
@@ -14,11 +15,9 @@ export default new Vuex.Store({
         },
         setMediaUrl(state,url){
             state.mediaUrl=url;
-        }
-    },
-    actions:{
-        setMediaUrl(state,url){
-            state.commit("setMediaUrl",url)
+        },
+        setCurrentPlayInfo(state,data){
+            state.currentPlayInfo=data;
         }
     }
 })

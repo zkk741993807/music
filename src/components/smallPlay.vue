@@ -1,39 +1,51 @@
 <template>
-  <div>
+  <div >
     <div class="smllplay-wrapper">
       <div class="pic">
-        <img src="../assets/img/1.jpg">
+        <img v-if="playInfo" :src='"https://y.gtimg.cn/music/photo_new/T001R300x300M000"+playInfo.singer[0].mid+".jpg?max_age=2592000"'>
       </div>
       <div class="song-info">
-        <span class="name">告白气球</span>
-        <span class="singer">周杰伦-告白气球</span>
+        <span class="name">{{playInfo.songname}}</span>
+        <span class="singer">
+          <template
+            v-for="(singer,index) in playInfo.singer"
+          >{{singer.name}}{{index==playInfo.singer.length-1?"":"/"}}</template>
+          -{{playInfo.songname}}
+        </span>
       </div>
-      <div class="controller" @click.stop="stop">
-        <div class="play-pause" @click.stop="isPlay=!isPlay">
+      <div class="controller">
+        <div class="play-pause" @click.stop="play">
           <span class="iconfont">{{isPlay ?"&#xe804;":"&#xe69d;"}}</span>
         </div>
       </div>
-      <div class="controller" @click.stop>
-        <div class="next" @click.stop>
-          <span class="iconfont" @click.stop>&#xe7ff;</span>
+      <div class="controller">
+        <div class="next">
+          <span class="iconfont">&#xe7ff;</span>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
-    data(){
-        return {
-            isPlay:true
-        }
-    },
-    methods: {
-      stop(e){
-        e.stopPropagation();
-        console.log(1)
-      }
-    },
+  data() {
+    return {
+      isPlay: true,
+    };
+  },
+  methods: {
+    play() {
+      this.isPlay = !this.isPlay;
+      this.$emit("play");
+      console.log(Boolean(this.playInfo))
+    }
+  },
+  computed: {
+    ...mapState({
+      playInfo: state => state.currentPlayInfo
+    })
+  }
 };
 </script>
 <style scoped>
@@ -66,7 +78,7 @@ export default {
   margin-left: 10px;
 }
 .song-info .name {
-  font-size: 18px;
+  font-size: 16px;
 }
 .song-info .singer {
   color: #ccc;
@@ -75,17 +87,18 @@ export default {
 .controller {
   width: 0px;
   height: 0px;
-  padding:5%;
+  padding: 5%;
   background: #eee;
   border-radius: 50%;
   margin-left: 20px;
 }
-.controller  .play-pause , .next{
-    width:100%;
-    height:100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.controller .play-pause,
+.next {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .controller .iconfont {
   font-size: 22px;

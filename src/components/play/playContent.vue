@@ -1,7 +1,6 @@
 <template>
   <div class="play-content">
-    <div class="index" ref="index">
-      
+    <div class="index" ref="index">     
       <span class="active-item"></span>
       <span class="static-item"></span>
       <span class="static-item"></span>
@@ -10,7 +9,7 @@
       <ul class="play-wrapper" @touchstart.prevent>
         <li class="pic-wrapper">
           <div class="pic">
-            <img src="../../assets/img/defaultImg.png">
+            <img  :src='"https://y.gtimg.cn/music/photo_new/T001R300x300M000"+mid+".jpg?max_age=2592000"'>
           </div>
         </li>
         <li class="lyric-wrapper">
@@ -24,7 +23,7 @@
 <script>
 import IScroll from "iscroll";
 export default {
-  methods: {},
+  props:["mid"],
   updated() {
     console.log(this.$refs);
   },

@@ -2,13 +2,19 @@
   <div class="header-wrapper">
     <div class="title-wrapper">
       <span class="iconfont">&#xe61b;</span>
-      <span class="title">{{info.title}}</span>
+      <span class="title">{{playInfo.songname}}</span>
     </div>
-    <div class="name">{{info.name}}</div>
+    <div class="name">
+      <template
+        v-for="(singer,index) in playInfo.singer"
+      >{{singer.name}}{{index==playInfo.singer.length-1?"":"/"}}</template>
+      -{{playInfo.songname}}
+    </div>
   </div>
 </template>
 <script>
 export default {
+  props: ["playInfo"],
   data() {
     return {
       info: {
@@ -17,8 +23,7 @@ export default {
       }
     };
   },
-  methods:{
-  }
+  methods: {}
 };
 </script>
 
@@ -30,9 +35,9 @@ export default {
   font-size: 40px;
   float: left;
 }
-.title-wrapper{
-    padding:5px;
-    overflow: hidden;
+.title-wrapper {
+  padding: 5px;
+  overflow: hidden;
 }
 .title {
   font-size: 26px;
@@ -44,8 +49,8 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.name{
-    text-align: center;
-    padding:0px 10px 10px 10px;
+.name {
+  text-align: center;
+  padding: 0px 10px 10px 10px;
 }
 </style>

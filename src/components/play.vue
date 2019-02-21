@@ -1,7 +1,7 @@
 <template>
-  <div class="play">
-    <audio :src="getMediaUrl" autoplay></audio>
-    <small-play class="small-play" v-if="smallShow" ref="small"></small-play>
+  <div class="play" >
+    <audio :src="getMediaUrl"  ref="audio"></audio>
+    <small-play class="small-play" v-if="smallShow" ref="small" @play="play"></small-play>
     <normal-play class="normal-play" ref="normal"></normal-play>
   </div>
 </template>
@@ -15,6 +15,16 @@ export default {
     return {
       smallShow: true,
     };
+  },
+  methods: {
+    play(){
+      var audio=this.$refs.audio;
+      if(audio.paused){
+        audio.play();
+      }else{
+        audio.pause();
+      }
+    }
   },
   computed: {
     ...mapState({
