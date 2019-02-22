@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <my-header class="header"></my-header>
-    <my-content class="content"></my-content>
+    <my-content class="content" ></my-content>
     <my-footer class="footer" ref="footer"></my-footer>
     <play class="play" ref="play" :style="{transform}"></play>
     <more-alert v-if="moreAlertTitle" class="more-alert"></more-alert>

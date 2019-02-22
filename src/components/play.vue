@@ -1,6 +1,6 @@
 <template>
-  <div class="play" >
-    <audio :src="getMediaUrl"  ref="audio"></audio>
+  <div class="play" :class="!playInfo?'zIndex':''">
+    <audio :src="getMediaUrl" ref="audio"></audio>
     <small-play class="small-play" v-if="smallShow" ref="small" @play="play"></small-play>
     <normal-play class="normal-play" ref="normal"></normal-play>
   </div>
@@ -13,15 +13,15 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      smallShow: true,
+      smallShow: true
     };
   },
   methods: {
-    play(){
-      var audio=this.$refs.audio;
-      if(audio.paused){
+    play() {
+      var audio = this.$refs.audio;
+      if (audio.paused) {
         audio.play();
-      }else{
+      } else {
         audio.pause();
       }
     }
@@ -29,7 +29,8 @@ export default {
   computed: {
     ...mapState({
       getMediaUrl: state => state.mediaUrl,
-    }),
+      playInfo: state => state.currentPlayInfo
+    })
   },
   components: {
     SmallPlay,
@@ -51,5 +52,8 @@ export default {
 }
 .normal-play {
   opacity: 0;
+}
+.zIndex {
+  z-index: -1;
 }
 </style>

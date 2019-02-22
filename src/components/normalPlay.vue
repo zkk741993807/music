@@ -1,7 +1,7 @@
 <template>
   <div class="nomarlPlay-wrapper" >
     <play-header class="play-header" :play-info="playInfo"></play-header>
-    <play-content class="play-content" :mid="playInfo.singer[0].mid"></play-content>
+    <play-content class="play-content" v-if="playInfo" :mid="playInfo.singer[0].mid"></play-content>
     <play-footer></play-footer>
   </div>
 </template>

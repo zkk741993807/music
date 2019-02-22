@@ -38,7 +38,6 @@ export default {
     play() {
       this.isPlay = !this.isPlay;
       this.$emit("play");
-      console.log(Boolean(this.playInfo))
     }
   },
   computed: {
@@ -76,13 +75,20 @@ export default {
   justify-content: space-around;
   flex-grow: 1;
   margin-left: 10px;
+  max-width: 50%;
 }
 .song-info .name {
   font-size: 16px;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .song-info .singer {
   color: #ccc;
   font-size: 14px;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .controller {
   width: 0px;
