@@ -13,24 +13,32 @@
           </div>
         </li>
         <li class="lyric-wrapper">
-          <div>lyric</div>
+          <div>{{getSongid}}</div>
         </li>
       </ul>
     </div>
   </div>
 </template>
-
 <script>
 import IScroll from "iscroll";
+import getLyric from  "../../assets/js/getLyric";
+import {mapState} from "vuex";
 export default {
   props:["mid"],
-  updated() {
-    console.log(this.$refs);
+  data(){
+    return{
+      lyric:""
+    }
+  },
+  created() {
+    getLyric(this.getSongid,lyric=>{
+      console.log(lyric)
+      this.lyric=lyric;
+    })
   },
   mounted() {
-    console.log(this.$refs);
     var _this = this;
-    var myScroll = new IScroll(".wrapper", {
+    var myScroll = new IScroll(".wrapper", {//播放页中图片和歌词左右滑动
       scrollX: true,
       scrollY: false,
       momentum: false,
@@ -41,7 +49,12 @@ export default {
         resize: false
       }
     });
-  }
+  },
+  computed: {
+    ...mapState({
+      getSongid:state=>state.currentPlayInfo.songid
+    })
+  },
 };
 </script>
 

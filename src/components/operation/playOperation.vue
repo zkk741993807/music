@@ -8,7 +8,7 @@
         <span class="iconfont">&#xe800;</span>
       </div>
       <div class="item play-pause" @click="play">
-        <span class="iconfont">{{ isPlay ?"&#xe804;" :"&#xe69d;"}}</span>
+        <span class="iconfont">{{ !playState ?"&#xe804;" :"&#xe69d;"}}</span>
       </div>
       <div class="item next" @click="next">
         <span class="iconfont">&#xe7ff;</span>
@@ -21,12 +21,12 @@
   </div>
 </template>
 <script>
+import {mapState} from "vuex";
 export default {
   props: ["value"],
   data() {
     return {
       isOneloop: false,
-      isPlay: false,
       isLove: false,
       length: 5,
       index: 0
@@ -40,7 +40,7 @@ export default {
       this.isOneloop = !this.isOneloop;
     },
     play() {
-      this.isPlay = !this.isPlay;
+      this.$store.commit("setPlayState",!this.playState);
     },
     prev() {
       if (this.index == 0) {
@@ -56,7 +56,12 @@ export default {
         this.index++;
       }
     }
-  }
+  },
+  computed: {
+    ...mapState({
+      playState:state=>state.playState
+    })
+  },
 };
 </script>
 <style scoped>

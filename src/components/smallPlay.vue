@@ -15,7 +15,7 @@
       </div>
       <div class="controller">
         <div class="play-pause" @click.stop="play">
-          <span class="iconfont">{{isPlay ?"&#xe804;":"&#xe69d;"}}</span>
+          <span class="iconfont">{{!playState ?"&#xe804;":"&#xe69d;"}}</span>
         </div>
       </div>
       <div class="controller">
@@ -31,18 +31,17 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      isPlay: true,
     };
   },
   methods: {
     play() {
-      this.isPlay = !this.isPlay;
-      this.$emit("play");
+      this.$store.commit("setPlayState",!this.playState);
     }
   },
   computed: {
     ...mapState({
-      playInfo: state => state.currentPlayInfo
+      playInfo: state => state.currentPlayInfo,
+      playState:state=>state.playState
     })
   }
 };

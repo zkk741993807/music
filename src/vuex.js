@@ -6,18 +6,23 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         moreAlertTitle: "",
-        mediaUrl:"",
-        currentPlayInfo:""
+        mediaUrl: "",
+        currentPlayInfo: "",
+        playState: true,
     },
     mutations: {
-        showMoreAlert(state,name) {
+        showMoreAlert(state, name) {
             state.moreAlertTitle = name;
         },
-        setMediaUrl(state,url){
-            state.mediaUrl=url;
+        setMediaUrl(state, url) {
+            state.mediaUrl = url;
         },
-        setCurrentPlayInfo(state,data){
-            state.currentPlayInfo=data;
+        setCurrentPlayInfo(state, data) {
+            state.currentPlayInfo = data;
+        },
+        setPlayState(state, flag) {
+            console.log(flag)
+            state.playState = flag;
         }
     }
 })

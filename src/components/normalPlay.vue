@@ -25,7 +25,13 @@ export default {
     ...mapState({
       playInfo: state => state.currentPlayInfo
     })
-  }
+  },
+  methods: {
+    play() {
+      this.isPlay = !this.isPlay;
+      this.$emit("play");
+    }
+  },
 };
 </script>
 <style >
