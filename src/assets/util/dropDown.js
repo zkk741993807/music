@@ -19,7 +19,6 @@ DropDown.prototype.init = function () {
     this.moveBind = this.move.bind(this);
     this.endBind = this.end.bind(this);
     document.addEventListener("touchstart", this.startBind);
-    console.log(this.el)
 }
 DropDown.prototype.start = function (e) {
     if (!this.over) {

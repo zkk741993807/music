@@ -35,7 +35,6 @@ export default {
   },
   watch: {
     playState() {
-      console.log(this);
       this.play();
     }
   },

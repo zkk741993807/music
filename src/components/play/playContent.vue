@@ -10,17 +10,23 @@
         <li class="pic-wrapper">
           <div class="pic">
             <img
-            :src='"https://y.gtimg.cn/music/photo_new/T001R300x300M000"+mid+".jpg?max_age=2592000"'
+              :src='"https://y.gtimg.cn/music/photo_new/T001R300x300M000"+mid+".jpg?max_age=2592000"'
             >
           </div>
         </li>
         <li class="lyric-wrapper">
           <!-- 减7因为index高度 -->
-          <div class="lyric" ref="lyric"  :style="{transform:lyricTranslate,marginTop:headerH-7+'px'}" >
-            <p v-for="(item,i) in lyricArr"  
-            :index="item.tag" :key="i"
-            :class="index==i?'active':''"
-            ref="lyricLineH"
+          <div
+            class="lyric"
+            ref="lyric"
+            :style="{transform:lyricTranslate,marginTop:headerH-7+'px'}"
+          >
+            <p
+              v-for="(item,i) in lyricArr"
+              :index="item.tag"
+              :key="i"
+              :class="index==i?'active':''"
+              ref="lyricLineH"
             >{{item.lyric}}</p>
           </div>
         </li>
@@ -34,7 +40,7 @@ import HandleLyric from "../../assets/util/handleLyric";
 import utf8 from "utf8";
 import { mapState } from "vuex";
 export default {
-  props: ["mid","headerH"],
+  props: ["mid", "headerH"],
   data() {
     return {
       lyricArr: [],
@@ -47,22 +53,29 @@ export default {
     });
   },
   methods: {
-
+    calcLyricTranslate() {
+      this.$nextTick(e => {
+        console.log(e);
+      });
+    }
   },
   watch: {
     getSongid(value) {
-      console.log("id");
+      console.log(value)
       HandleLyric(value, lyricArr => {
         this.lyricArr = lyricArr;
       });
     },
     getPlayTime(time) {
-      var len=this.lyricArr.length;
+      var len = this.lyricArr.length;
       if (len) {
-        for(var i=this.index;i<len;i++){
-          var tagTime=this.lyricArr[i].tag;
-          if(Math.abs(tagTime - time) < 0.6){
-            this.index=i;
+        for (var i = this.index; i < len; i++) {
+          var tagTime = this.lyricArr[i].tag;
+          if (Math.abs(tagTime - time) < 0.6) {
+            this.index = i;
+            this.$nextTick(e => {
+
+            });
             break;
           }
         }
@@ -83,9 +96,6 @@ export default {
         resize: false
       }
     });
-
-    var lyricHeight=this.$refs.lyricLineH;
-    console.log(lyricHeight)
   },
   computed: {
     ...mapState({
@@ -93,9 +103,9 @@ export default {
       getPlayTime: state => state.currentPlayTime
     }),
 
-    lyricTranslate(){
-      var dis=-this.index*27+"px"
-      return  `translate(0,${dis})`
+    lyricTranslate() {
+      var dis = -this.index * 27 + "px";
+      return `translate(0,${dis})`;
     }
   }
 };
@@ -163,7 +173,7 @@ export default {
   width: 50%;
   float: left;
   height: 100%;
-  padding:10px 8px;
+  padding: 10px 8px;
   box-sizing: border-box;
 }
 .pic {
@@ -181,8 +191,8 @@ export default {
   height: 100%;
   border-radius: 50%;
 }
-.lyric{
-  transition:all 0.5s;
+.lyric {
+  transition: all 0.5s;
 }
 .lyric p {
   text-align: center;
