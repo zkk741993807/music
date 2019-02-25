@@ -1,6 +1,6 @@
 <template>
   <div class="play" :class="!playInfo?'zIndex':''">
-    <audio :src="getMediaUrl" autoplay ref="audio"></audio>
+    <audio :src="getMediaUrl" autoplay ref="audio" @timeupdate="updateTime"></audio>
     <small-play class="small-play" v-if="smallShow" ref="small"></small-play>
     <normal-play class="normal-play" ref="normal"></normal-play>
   </div>
@@ -28,6 +28,9 @@ export default {
       } else {
         this.audio.pause();
       }
+    },
+    updateTime(e){
+      this.$store.commit("setPlayTime",e.target.currentTime)
     }
   },
   watch: {

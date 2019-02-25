@@ -1,7 +1,7 @@
 <template>
   <div class="nomarlPlay-wrapper" >
-    <play-header class="play-header" :play-info="playInfo"></play-header>
-    <play-content class="play-content" v-if="playInfo" :mid="playInfo.singer[0].mid"></play-content>
+    <play-header class="play-header" :play-info="playInfo" ref="playHeader"></play-header>
+    <play-content class="play-content" v-if="playInfo" :mid="playInfo.singer[0].mid" :headerH="headerHeight" ></play-content>
     <play-footer></play-footer>
   </div>
 </template>
@@ -14,7 +14,9 @@ import PlayFooter from "./play/playFooter";
 import { mapState } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      headerHeight:0
+    };
   },
   components: {
     PlayHeader,
@@ -31,6 +33,10 @@ export default {
       this.isPlay = !this.isPlay;
       this.$emit("play");
     }
+  },
+  mounted() {
+    var headerHeight=this.$refs.playHeader.$el.clientHeight;
+    this.headerHeight=headerHeight;
   },
 };
 </script>

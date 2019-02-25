@@ -1,6 +1,6 @@
 <template>
   <div class="play-content">
-    <div class="index" ref="index">     
+    <div class="index" ref="index">
       <span class="active-item"></span>
       <span class="static-item"></span>
       <span class="static-item"></span>
@@ -9,11 +9,20 @@
       <ul class="play-wrapper" @touchstart.prevent>
         <li class="pic-wrapper">
           <div class="pic">
-            <img  :src='"https://y.gtimg.cn/music/photo_new/T001R300x300M000"+mid+".jpg?max_age=2592000"'>
+            <img
+            :src='"https://y.gtimg.cn/music/photo_new/T001R300x300M000"+mid+".jpg?max_age=2592000"'
+            >
           </div>
         </li>
         <li class="lyric-wrapper">
-          <div>{{getSongid}}</div>
+          <!-- 减7因为index高度 -->
+          <div class="lyric" ref="lyric"  :style="{transform:lyricTranslate,marginTop:headerH-7+'px'}" >
+            <p v-for="(item,i) in lyricArr"  
+            :index="item.tag" :key="i"
+            :class="index==i?'active':''"
+            ref="lyricLineH"
+            >{{item.lyric}}</p>
+          </div>
         </li>
       </ul>
     </div>
@@ -21,24 +30,49 @@
 </template>
 <script>
 import IScroll from "iscroll";
-import getLyric from  "../../assets/js/getLyric";
-import {mapState} from "vuex";
+import HandleLyric from "../../assets/util/handleLyric";
+import utf8 from "utf8";
+import { mapState } from "vuex";
 export default {
-  props:["mid"],
-  data(){
-    return{
-      lyric:""
-    }
+  props: ["mid","headerH"],
+  data() {
+    return {
+      lyricArr: [],
+      index: 0
+    };
   },
   created() {
-    getLyric(this.getSongid,lyric=>{
-      console.log(lyric)
-      this.lyric=lyric;
-    })
+    HandleLyric(this.getSongid, lyricArr => {
+      this.lyricArr = lyricArr;
+    });
+  },
+  methods: {
+
+  },
+  watch: {
+    getSongid(value) {
+      console.log("id");
+      HandleLyric(value, lyricArr => {
+        this.lyricArr = lyricArr;
+      });
+    },
+    getPlayTime(time) {
+      var len=this.lyricArr.length;
+      if (len) {
+        for(var i=this.index;i<len;i++){
+          var tagTime=this.lyricArr[i].tag;
+          if(Math.abs(tagTime - time) < 0.6){
+            this.index=i;
+            break;
+          }
+        }
+      }
+    }
   },
   mounted() {
+    //播放页中图片和歌词左右滑动
     var _this = this;
-    var myScroll = new IScroll(".wrapper", {//播放页中图片和歌词左右滑动
+    var myScroll = new IScroll(".wrapper", {
       scrollX: true,
       scrollY: false,
       momentum: false,
@@ -49,12 +83,21 @@ export default {
         resize: false
       }
     });
+
+    var lyricHeight=this.$refs.lyricLineH;
+    console.log(lyricHeight)
   },
   computed: {
     ...mapState({
-      getSongid:state=>state.currentPlayInfo.songid
-    })
-  },
+      getSongid: state => state.currentPlayInfo.songid,
+      getPlayTime: state => state.currentPlayTime
+    }),
+
+    lyricTranslate(){
+      var dis=-this.index*27+"px"
+      return  `translate(0,${dis})`
+    }
+  }
 };
 </script>
 
@@ -63,7 +106,7 @@ export default {
   text-align: center;
   font-size: 0px;
   width: 20px;
-  margin: 0px auto 20px;
+  margin: 0px auto 10px;
   position: relative;
   height: 7px;
 }
@@ -101,10 +144,10 @@ export default {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
 }
 .wrapper {
   flex-grow: 1;
+  overflow: hidden;
 }
 .play-wrapper {
   width: 200%;
@@ -120,6 +163,8 @@ export default {
   width: 50%;
   float: left;
   height: 100%;
+  padding:10px 8px;
+  box-sizing: border-box;
 }
 .pic {
   width: 0px;
@@ -135,5 +180,15 @@ export default {
   width: 100%;
   height: 100%;
   border-radius: 50%;
+}
+.lyric{
+  transition:all 0.5s;
+}
+.lyric p {
+  text-align: center;
+  padding: 3px 4px;
+}
+.lyric .active {
+  color: red;
 }
 </style>

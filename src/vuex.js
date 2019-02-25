@@ -9,6 +9,7 @@ export default new Vuex.Store({
         mediaUrl: "",
         currentPlayInfo: "",
         playState: true,
+        currentPlayTime:0
     },
     mutations: {
         showMoreAlert(state, name) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
         setPlayState(state, flag) {
             console.log(flag)
             state.playState = flag;
+        },
+        setPlayTime(state,time){
+            state.currentPlayTime=time;
         }
     }
 })
