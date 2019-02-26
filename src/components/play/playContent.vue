@@ -55,13 +55,12 @@ export default {
   methods: {
     calcLyricTranslate() {
       this.$nextTick(e => {
-        console.log(e);
+
       });
     }
   },
   watch: {
     getSongid(value) {
-      console.log(value)
       HandleLyric(value, lyricArr => {
         this.lyricArr = lyricArr;
       });
@@ -71,11 +70,8 @@ export default {
       if (len) {
         for (var i = this.index; i < len; i++) {
           var tagTime = this.lyricArr[i].tag;
-          if (Math.abs(tagTime - time) < 0.6) {
+          if (tagTime - time>0&&tagTime - time <1) {
             this.index = i;
-            this.$nextTick(e => {
-
-            });
             break;
           }
         }

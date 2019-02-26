@@ -1,28 +1,69 @@
 <template>
   <div>
-    <Slider v-model="value"></Slider>
-    {{value}}
+    <div class="time-slider">
+      <span class="time">{{playTime}}</span>
+      <Slider v-model="value" class="slider-component"></Slider>
+      <span class="time">{{totalTime}}</span>
+    </div>
     <play-operation></play-operation>
   </div>
 </template>
 <script>
 import Slider from "../operation/slider";
 import PlayOperation from "../operation/playOperation";
+import { mapState } from "vuex";
+import FormatTime from "../../assets/util/formatTime";
 export default {
   data() {
     return {
-      value: 0
+      value: 0,
+      playTime: 0,
+      totalTime: 0
     };
+  },
+  watch: {
+    currentPlayTime(value) {
+      var percent = parseInt((value / this.audioTotalTime) * 100);
+      console.log(value / this.audioTotalTime)
+      this.value = percent;
+      this.playTime = FormatTime(value);
+    },
+    audioTotalTime(time) {
+      this.totalTime = FormatTime(time);
+    }
   },
   components: {
     Slider,
     PlayOperation
+  },
+  computed: {
+    ...mapState({
+      currentPlayTime: state => state.currentPlayTime,
+      audioTotalTime: state => {
+        var obj = state.audioObj;
+        console.log(obj);
+        if (obj) {
+          return obj.duration;
+        }
+      }
+    })
   }
 };
 </script>
 
 <style scoped>
-button {
-  margin: 30px;
+.time-slider {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.time {
+  padding: 5px 8px;
+  font-size: 16px;
+  color: rgb(155, 150, 150);
+}
+.slider-component {
+  flex-grow: 1;
+  margin: 0px 10px;
 }
 </style>

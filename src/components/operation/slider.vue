@@ -71,8 +71,7 @@ export default {
 </script>
 <style scoped>
 .progress {
-  width: 300px;
-  margin: 0 auto;
+  /* width: 300px; */
   position: relative;
   height: 20px;
 }

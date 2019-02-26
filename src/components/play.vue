@@ -1,6 +1,6 @@
 <template>
   <div class="play" :class="!playInfo?'zIndex':''">
-    <audio :src="getMediaUrl" autoplay ref="audio" @timeupdate="updateTime"></audio>
+    <audio :src="getMediaUrl" autoplay ref="audio" @timeupdate="updateTime" @durationchange="durationchange" @canplay="canPlay"></audio>
     <small-play class="small-play" v-if="smallShow" ref="small"></small-play>
     <normal-play class="normal-play" ref="normal"></normal-play>
   </div>
@@ -19,7 +19,6 @@ export default {
   },
   mounted() {
     this.audio = this.$refs.audio;
-    console.log(this.$refs.audio)
   },
   methods: {
     play() {
@@ -31,6 +30,12 @@ export default {
     },
     updateTime(e){
       this.$store.commit("setPlayTime",e.target.currentTime)
+    },
+    durationchange(e){
+ 
+    },
+    canPlay(e){
+     this.$store.commit("setAudioObj",e.target);
     }
   },
   watch: {

@@ -4,7 +4,6 @@ export default function (songid,fn) {
     getLyric(songid, lyric => {
         lyric=utf8.decode(atob(lyric.lyric));
         fn(LyricArr(lyric));
-        console.log(LyricArr(lyric))
     })
 }
 

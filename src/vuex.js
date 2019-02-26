@@ -9,7 +9,8 @@ export default new Vuex.Store({
         mediaUrl: "",
         currentPlayInfo: "",
         playState: true,
-        currentPlayTime:0
+        currentPlayTime:0,
+        audioObj:null
     },
     mutations: {
         showMoreAlert(state, name) {
@@ -27,6 +28,9 @@ export default new Vuex.Store({
         },
         setPlayTime(state,time){
             state.currentPlayTime=time;
+        },
+        setAudioObj(state,audio){
+            state.audioObj=audio;
         }
     }
 })
