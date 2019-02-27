@@ -1,5 +1,5 @@
 <template>
-  <div class="progress" @touchstart="point">
+  <div class="progress" @touchstart.stop="point">
     <div class="progress-wrapper" ref="sliderwrapper">
       <div class="slider" :style="style">
         <div class="slider-button" @touchstart.stop="start" @touchend="end"></div>
@@ -9,18 +9,19 @@
 </template>
 <script>
 export default {
-  props: ["value"],
+  props: ["value","copyValue"],
   data() {
     return {
       style: { width: "0%" },
       sliderWidth: 0,
       disX: 0,
       lastWidth: 0,
-      sliderLeft: 0
+      sliderLeft: 0,
+      percentValue:0,
     };
   },
   watch: {
-    value(value) {
+    copyValue(value) {
       this.setValue(value);
     }
   },
@@ -31,10 +32,10 @@ export default {
       this.move();
     },
     move() {
-      console.log("move");
       document.addEventListener("touchmove", this.moveFn);
     },
     end() {
+      this.$emit("input", this.percentValue);
       document.removeEventListener("touchmove", this.moveFn);
     },
     moveFn(event) {
@@ -51,7 +52,8 @@ export default {
         value = 0;
       }
       this.style.width = value + "%";
-      this.$emit("input", value);
+      this.percentValue=value;
+      // this.$emit("input", value);
     },
     getValue() {
       return this.style.width;
@@ -73,10 +75,10 @@ export default {
 .progress {
   /* width: 300px; */
   position: relative;
-  height: 20px;
+  height: 10px;
 }
 .progress-wrapper {
-  height: 6px;
+  height: 4px;
   width:100%;
   background: #ccc;
   position:absolute;
@@ -92,8 +94,8 @@ export default {
   border-radius: 3px;
 }
 .slider-button {
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   position: absolute;
   top: 50%;
   transform: translate(0, -50%);

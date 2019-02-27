@@ -1,6 +1,6 @@
 <template>
-  <div class="rank-wrapper">
-    <ul>
+  <div class="rank-wrapper" @scroll="scroll">
+    <ul ref="ul">
       <li class="rank-list-item" v-for=" item in songList" :key="item.cur_count">
         <a href="#" @click="play(item.data)">
           <div class="item-index">{{item.cur_count}}</div>
@@ -27,23 +27,47 @@ export default {
   data() {
     return {
       page: 0,
-      songList: ""
+      songList: [],
+      ulHeight: 0
     };
   },
   created() {
-    getRank(this.page, data => {
-      this.songList = data.songlist;
-    });
+    this.getRankData(this.page)
+  },
+  watch: {
+    page(page) {
+      console.log("w", this.page);
+      this.getRankData(this.page);
+    }
+  },
+  updated() {
+    this.ulHeight = this.$refs.ul.clientHeight;
   },
   methods: {
+    getRankData(page) {
+      getRank(page, data => {
+        this.songList = this.songList.concat(data.songlist);
+      });
+    },
     changeMoreAlertState(name) {
       this.$store.commit("showMoreAlert", name);
     },
     play(data) {
-      this.$store.commit("setCurrentPlayInfo",data);
+      this.$store.commit("setCurrentPlayInfo", data);
       getMedia(data.songmid, data.strMediaMid, url => {
         this.$store.commit("setMediaUrl", url);
       });
+    },
+    scroll(e) {
+      if(this.page==9){
+        return ;
+      }
+      var scrollTop = e.target.scrollTop;
+      var wrapperHeight = e.target.clientHeight;
+      if (scrollTop == this.ulHeight - wrapperHeight) {
+        this.page++;
+        console.log(this.page)
+      }
     }
   }
 };
@@ -52,6 +76,7 @@ export default {
 .rank-wrapper {
   width: 100%;
   height: 100%;
+  overflow: scroll;
 }
 .rank-list-item {
   box-sizing: border-box;

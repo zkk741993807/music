@@ -84,7 +84,7 @@ export default {
 .content {
   flex-grow: 1;
   padding: 0px 8px;
-  overflow: scroll;
+  overflow: hidden;
 }
 .footer {
   height: 60px;

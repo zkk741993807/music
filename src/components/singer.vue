@@ -1,6 +1,6 @@
 <template>
-  <div class="singer-wrapper">
-    <div class="singer">
+  <div class="singer-wrapper" @scroll="scroll">
+    <div class="singer" ref="singer">
       <div class="singer-assortment" @click="changeItem" ref="assortment">
         <ul class="singer-index tag-item">
           <!-- js渲染 -->
@@ -67,10 +67,12 @@ export default {
   data() {
     return {
       tags: {}, //包含的tag
-      singerList: {},
+      singerList: [],
+      cur_page: 1,
       currentTags: {},
       show: true,
-      style: ""
+      style: "",
+      singerHeight: 0
     };
   },
   watch: {
@@ -82,6 +84,18 @@ export default {
     }
   },
   methods: {
+    scroll(e) {
+      if(this.cur_page==10){
+        return ;
+      }
+      var scrollTop = e.target.scrollTop;
+      var wrapperHeight = e.target.clientHeight;
+      if (scrollTop == this.singerHeight - wrapperHeight) {
+        this.currentTags.sin = 80 * this.cur_page; //sin歌曲开始序号，一次80个歌手
+        this.currentTags.cur_page = ++this.cur_page;
+        this.getData(this.currentTags);
+      }
+    },
     changeItem(e) {
       var str = "index/area/id/sex/genre";
       var target = e.target;
@@ -101,7 +115,7 @@ export default {
         console.log(data);
         data = data.singerList.data;
         this.tags = data.tags;
-        this.singerList = data.singerlist;
+        this.singerList = this.singerList.concat(data.singerlist);
         for (var prop in data) {
           if (typeof data[prop] !== "object") {
             this.$set(this.currentTags, prop, data[prop]);
@@ -117,15 +131,13 @@ export default {
   created() {
     this.getData(this.currentTags);
   },
-  mounted(){
-    
-
-  },
   updated() {
+    this.singerHeight = this.$refs.singer.clientHeight;
+
     if (this.style) {
-      return;
+      // return;
     }
-    var lineHeight = this.$refs.lineHeight[0].offsetHeight;
+    var lineHeight = this.$refs.lineHeight[0].offsetHeight; //分类第一行，用于折叠分类
     this.style =
       "translateY(-" +
       (this.$refs.assortment.offsetHeight - lineHeight) +
@@ -143,10 +155,9 @@ export default {
 .singer-wrapper {
   width: 100%;
   height: 100%;
-
+  overflow: scroll;
 }
 .singer {
-  height: 100%;
   width: 100%;
 }
 .singer-assortment {

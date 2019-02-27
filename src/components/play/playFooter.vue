@@ -2,7 +2,7 @@
   <div>
     <div class="time-slider">
       <span class="time">{{playTime}}</span>
-      <Slider v-model="value" class="slider-component"></Slider>
+      <Slider v-model="value" :copyValue="copyValue" class="slider-component"></Slider>
       <span class="time">{{totalTime}}</span>
     </div>
     <play-operation></play-operation>
@@ -18,20 +18,24 @@ export default {
     return {
       value: 0,
       playTime: 0,
-      totalTime: 0
+      totalTime: 0,
+      copyValue: 0
     };
   },
   watch: {
     currentPlayTime(value) {
       var percent = parseInt((value / this.audioTotalTime) * 100);
-      console.log(value / this.audioTotalTime)
-      this.value = percent;
+      this.copyValue = percent;
       this.playTime = FormatTime(value);
+    },
+    value(value) {
+      this.audioObj.currentTime = (value / 100) * this.audioTotalTime;
     },
     audioTotalTime(time) {
       this.totalTime = FormatTime(time);
     }
   },
+  methods: {},
   components: {
     Slider,
     PlayOperation
@@ -41,11 +45,11 @@ export default {
       currentPlayTime: state => state.currentPlayTime,
       audioTotalTime: state => {
         var obj = state.audioObj;
-        console.log(obj);
         if (obj) {
           return obj.duration;
         }
-      }
+      },
+      audioObj: state => state.audioObj
     })
   }
 };
