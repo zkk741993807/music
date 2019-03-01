@@ -4,7 +4,7 @@
     <my-content class="content" ></my-content>
     <my-footer class="footer" ref="footer"></my-footer>
     <play class="play" ref="play" :style="{transform}"></play>
-    <more-alert v-if="moreAlertTitle" class="more-alert"></more-alert>
+    <more-alert v-if="moreAlertData" class="more-alert"></more-alert>
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     ...mapState({
-      moreAlertTitle: state => state.moreAlertTitle
+      moreAlertData: state => state.moreAlertData
     })
   },
   components: {

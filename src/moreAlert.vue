@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="alert-wrapper">
-      <div class="title">{{title}}</div>
+      <div class="title">{{moreAlertData.songname}}</div>
       <ul class="item-wrapper">
         <li class="item">
-          <a download>
+          <a download="a" :href="url">
             <span class="iconfont">&#xe66b;</span>
             下载
           </a>
@@ -26,20 +26,31 @@
   </div>
 </template>
 <script>
+import getMedia from "./assets/js/getMedia";
 export default {
   data() {
     return {
-      loveState: false
+      loveState: false,
+      url: ""
     };
   },
+  created() {
+    getMedia(
+      this.moreAlertData.songmid,
+      this.moreAlertData.strMediaMid,
+      url => {
+        this.url = url;
+      }
+    );
+  },
   computed: {
-      title(){
-        return this.$store.state.moreAlertTitle
-      }   
+    moreAlertData() {
+      return this.$store.state.moreAlertData;
+    }
   },
   methods: {
     cancle() {
-      this.$store.commit("showMoreAlert","");
+      this.$store.commit("showMoreAlert", "");
     },
     isLove() {
       this.loveState = !this.loveState;
@@ -76,6 +87,11 @@ export default {
   padding: 15px 0px;
   border-bottom: 1px solid #ccc;
   font-size: 18px;
+}
+.item a{
+  display: inline-block;
+  width:100%;
+  height:100%;
 }
 .item:last-of-type {
   border-bottom: none;

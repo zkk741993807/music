@@ -36,8 +36,8 @@ export default {
     ListItem
   },
   methods: {
-    moreBtn(name) {
-      this.$store.commit("showMoreAlert", name);
+    moreBtn(data) {
+      this.$store.commit("showMoreAlert", data);
     },
     play(data) {
       getMedia(data.songmid, data.strMediaMid, url => {

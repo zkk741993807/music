@@ -11,7 +11,7 @@
         </span>
       </div>
     </a>
-    <div class="more" @click="moreBtn(data.songname)">
+    <div class="more" @click="moreBtn(data)">
       <span class="iconfont">&#xe634;</span>
     </div>
   </li>
@@ -26,8 +26,8 @@ export default {
     play(data) {
       this.$emit("play", data);
     },
-    moreBtn(songname) {
-      this.$emit("moreBtn", songname);
+    moreBtn(data) {
+      this.$emit("moreBtn", data);
     }
   }
 };

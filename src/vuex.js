@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        moreAlertTitle: "",
+        moreAlertData: "",
         mediaUrl: "",
         currentPlayInfo: "",
         playState: true,
@@ -14,8 +14,8 @@ export default new Vuex.Store({
         audioObj:null
     },
     mutations: {
-        showMoreAlert(state, name) {
-            state.moreAlertTitle = name;
+        showMoreAlert(state, data) {
+            state.moreAlertData = data;
         },
         setMediaUrl(state, url) {
             state.mediaUrl = url;
