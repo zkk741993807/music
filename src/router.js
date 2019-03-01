@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 import MyInfo from "./components/myInfo"
 import Rank from "./components/rank"
 import Singer from "./components/singer"
-
+import PlayedList from "./components/myInfo/playedList"
 export default new VueRouter({
     mode:"history",
     linkExactActiveClass:"exact",
@@ -28,5 +28,10 @@ export default new VueRouter({
             path:"/myInfo",
             component:MyInfo
         },
+        {
+            path:"/myInfo/played-list",
+            name:"playedList",
+            component:PlayedList
+        }
     ]
 })

@@ -23,7 +23,7 @@ export default {
 }
 </script>
 <style scoped>
-    .exact{
+    .active{
         color:green;
     }
     .menu-wrapper{

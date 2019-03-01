@@ -1,35 +1,43 @@
 <template>
-  <div>myinfo
-    <div></div>
+  <div>
     <div class="list-wrapper">
       <ul>
-        <li class="list-item">
+        <router-link tag="li"  :to="{name:'playedList'}" class="list-item">
           <div class="pic">
             <!-- <img  src="../assets/img/defaultImg.png"> -->
           </div>
           <div class="des">
             <span class="title">播放列表</span>
-            <span class="num">0首</span>
+            <span class="num">{{playedListNum}}首</span>
           </div>
           <div class="more">
               <span class="iconfont">&#xe629;</span>
           </div>
-        </li>
+        </router-link >
       </ul>
     </div>
   </div>
 </template>
 <script>
-export default {};
+import {mapState} from "vuex"
+export default {
+  computed: {
+    ...mapState({
+      playedListNum:state=>state.playList.length
+    })
+  },
+};
 </script>
 <style scoped>
 .list-item {
   display: flex;
+  background: #fff;
 }
 .pic {
   width: 0px;
   height: 0px;
-  padding: 10%;
+  padding: 8%;
+  margin:8px;
   background-image: url("../assets/img/defaultImg.png");
   background-size: 100% 100%;
 }
@@ -39,9 +47,6 @@ export default {};
     flex-direction: column;
     justify-content:space-around;
 }
-.title, .num{
-    margin-left:20px;
-}
 .num{
     font-size: 14px;
     color:slategray;
@@ -50,5 +55,8 @@ export default {};
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.iconfont{
+  padding:0 7px;
 }
 </style>

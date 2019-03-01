@@ -35,6 +35,7 @@ export default {
       document.addEventListener("touchmove", this.moveFn);
     },
     end() {
+      console.log("end")
       this.$emit("input", this.percentValue);
       document.removeEventListener("touchmove", this.moveFn);
     },
@@ -63,6 +64,7 @@ export default {
       var percent = parseInt((point / this.sliderWidth) * 100);
       console.log(e);
       this.setValue(percent);
+      this.$emit("input", percent);
     }
   },
   mounted() {

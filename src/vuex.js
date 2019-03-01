@@ -10,6 +10,7 @@ export default new Vuex.Store({
         currentPlayInfo: "",
         playState: true,
         currentPlayTime:0,
+        playList:[],//播放列表。用来渲染“我的”播放列表
         audioObj:null
     },
     mutations: {
@@ -21,9 +22,9 @@ export default new Vuex.Store({
         },
         setCurrentPlayInfo(state, data) {
             state.currentPlayInfo = data;
+            state.playList.push(data);//播放列表
         },
         setPlayState(state, flag) {
-            console.log(flag)
             state.playState = flag;
         },
         setPlayTime(state,time){
