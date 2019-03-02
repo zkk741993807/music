@@ -1,9 +1,10 @@
 <template>
   <div class="singer-wrapper" @scroll="scroll">
     <div class="singer" ref="singer">
+      <!-- abcd分类列表 -->
       <div class="singer-assortment" @click="changeItem" ref="assortment">
         <ul class="singer-index tag-item">
-          <!-- js渲染 -->
+          <!--  -->
           <li
             ref="lineHeight"
             :data-index="item.id"
@@ -41,6 +42,7 @@
           >{{item.name}}</li>
         </ul>
       </div>
+      <!-- 歌手列表 -->
       <div class="singer-list-wrapper" :style="!show?{transform:style}:''">
         <span class="iconfont" @click="show=!show">{{show?"&#xe61a;":"&#xe61b;"}}</span>
         <div class="singer-list">
@@ -64,6 +66,7 @@
 import getSinger from "../assets/js/getSinger";
 import defaultImg from "../assets/img/defaultImg.png";
 export default {
+  name:"singer",
   data() {
     return {
       tags: {}, //包含的tag

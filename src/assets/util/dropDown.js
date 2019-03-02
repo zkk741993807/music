@@ -51,7 +51,6 @@ DropDown.prototype.move = function (e) {
     if (this.currentPosition == "top" && disY < 0 ||
         this.currentPosition == "bottom" && disY - this.height > 0) {//保证el在铺满屏也就是在top状态下不能上划
         var m = (this.clientHeight - disY) % this.clientHeight;      //el 隐藏在下方时也就是bottom状态下不能下划
-        console.log(1)
         if (m <= this.clientHeight - this.height) {
             this.el.style.transform = "translate(0px," + m + "px)";
         }
@@ -60,7 +59,6 @@ DropDown.prototype.move = function (e) {
     }
 }
 DropDown.prototype.end = function (e) {
-    console.log(2)
     if (!this.over) {
         return;
     }
@@ -72,7 +70,6 @@ DropDown.prototype.end = function (e) {
     // var diffPosX = this.startPosX - endPosX;
     var absDiffPosY = Math.abs(diffPosY);
     var ratioValue = absDiffPosY / time * 10;//滑动速度
-    //console.log(diffPos)
     if (ratioValue>4&&ratioValue < 10) {
         if (absDiffPosY <= this.clientHeight / 2) {
             diffPosY = -diffPosY;

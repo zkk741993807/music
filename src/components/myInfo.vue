@@ -2,13 +2,40 @@
   <div>
     <div class="list-wrapper">
       <ul>
-        <router-link tag="li"  :to="{name:'playedList'}" class="list-item">
+        <!-- 播放列表 -->
+        <router-link tag="li"  :to="{name:'myList',params:{path:'playList'}}" class="list-item">
           <div class="pic">
             <!-- <img  src="../assets/img/defaultImg.png"> -->
           </div>
           <div class="des">
             <span class="title">播放列表</span>
             <span class="num">{{playedListNum}}首</span>
+          </div>
+          <div class="more">
+              <span class="iconfont">&#xe629;</span>
+          </div>
+        </router-link >
+        <!-- 我的喜爱列表 -->
+        <router-link tag="li"  :to="{name:'myList',params:{path:'loveList'}}" class="list-item">
+          <div class="pic">
+            <!-- <img  src="../assets/img/defaultImg.png"> -->
+          </div>
+          <div class="des">
+            <span class="title">我的喜爱</span>
+            <span class="num">{{loveListNum}}首</span>
+          </div>
+          <div class="more">
+              <span class="iconfont">&#xe629;</span>
+          </div>
+        </router-link >
+        <!-- 我的列表 -->
+        <router-link tag="li"  :to="{name:'myList',params:{path:'songList'}}" class="list-item">
+          <div class="pic">
+            <!-- <img  src="../assets/img/defaultImg.png"> -->
+          </div>
+          <div class="des">
+            <span class="title">我的歌单</span>
+            <span class="num">{{songListNum}}首</span>
           </div>
           <div class="more">
               <span class="iconfont">&#xe629;</span>
@@ -23,7 +50,9 @@ import {mapState} from "vuex"
 export default {
   computed: {
     ...mapState({
-      playedListNum:state=>state.playList.length
+      playedListNum:state=>state.playList.length,
+      loveListNum:state=>state.loveList.length,
+      songListNum:state=>state.songList.length
     })
   },
 };
@@ -32,6 +61,7 @@ export default {
 .list-item {
   display: flex;
   background: #fff;
+  margin-bottom:6px;
 }
 .pic {
   width: 0px;

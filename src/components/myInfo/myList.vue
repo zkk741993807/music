@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="title">
-        播放列表
+        {{titleList[title]}}
     </div>
     <div class="wrapper">
       <ul class="play-wrapper">
         <list-item
-          v-for="(item,index) in playList"
+          v-for="(item,index) in list"
           :index="index+1"
           :data="item"
           :key="index"
@@ -22,15 +22,19 @@
 import getMedia from "../../assets/js/getMedia";
 //components
 import ListItem from "../listItem";
-import { mapState } from "vuex";
 export default {
+  name:"myList",
   data() {
-    return {};
+    return {
+      list:[],
+      title:"",
+      titleList:{playList:"播放列表",loveList:"我的喜爱",songList:"我的歌单"}
+    };
   },
-  computed: {
-    ...mapState({
-      playList: state => state.playList
-    })
+  created() {
+    var path=this.$route.params.path;
+    this.title=path;
+    this.list=this.$store.state[path];
   },
   components: {
     ListItem

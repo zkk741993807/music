@@ -100,5 +100,6 @@ export default {
   width: 100vw;
   height: 100vh;
   background: rgba(80, 80, 80, 0.2);
+  z-index:10000;
 }
 </style>

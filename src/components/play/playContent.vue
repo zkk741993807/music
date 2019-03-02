@@ -21,6 +21,7 @@
             ref="lyric"
             :style="{transform:lyricTranslate,marginTop:headerH-7+'px'}"
           >
+            <img v-show="lyricArr.length==0" class="loading" src="../../assets/img/loading.svg"></img>
             <p
               v-for="(item,i) in lyricArr"
               :index="item.tag"
@@ -52,15 +53,10 @@ export default {
       this.lyricArr = lyricArr;
     });
   },
-  methods: {
-    calcLyricTranslate() {
-      this.$nextTick(e => {
-
-      });
-    }
-  },
   watch: {
     getSongid(value) {
+      this.index=0;
+      this.lyricArr=[];
       HandleLyric(value, lyricArr => {
         this.lyricArr = lyricArr;
       });
@@ -98,7 +94,6 @@ export default {
       getSongid: state => state.currentPlayInfo.songid,
       getPlayTime: state => state.currentPlayTime
     }),
-
     lyricTranslate() {
       var dis = -this.index * 27 + "px";
       return `translate(0,${dis})`;
@@ -108,6 +103,11 @@ export default {
 </script>
 
 <style scoped>
+.loading{
+  width:50px;
+  height:50px;
+
+}
 .index {
   text-align: center;
   font-size: 0px;
@@ -189,9 +189,9 @@ export default {
 }
 .lyric {
   transition: all 0.5s;
+  text-align: center;
 }
 .lyric p {
-  text-align: center;
   padding: 3px 4px;
 }
 .lyric .active {

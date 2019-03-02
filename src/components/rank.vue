@@ -34,6 +34,7 @@ import getMedia from "../assets/js/getMedia";
 //components
 import ListItem from "./listItem"
 export default {
+  name:"rank",
   data() {
     return {
       page: 0,
