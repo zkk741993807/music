@@ -25,9 +25,6 @@ export default {
       transform: "translate(0, 0)"
     };
   },
-  created(){
-    //var mediaUrl=getMedia(songmid,strMediaMid)
-  },
   computed: {
     ...mapState({
       moreAlertData: state => state.moreAlertData
@@ -83,8 +80,9 @@ export default {
 }
 .content {
   flex-grow: 1;
-  padding: 0px 8px;
+  margin: 0px 8px;
   overflow: hidden;
+  position: relative;
 }
 .footer {
   height: 60px;
@@ -93,7 +91,6 @@ export default {
 }
 .play {
   position: absolute;
-  /* transform: translate(0, 90%); */
 }
 .more-alert {
   position: absolute;

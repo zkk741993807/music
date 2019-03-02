@@ -66,7 +66,7 @@
 import getSinger from "../assets/js/getSinger";
 import defaultImg from "../assets/img/defaultImg.png";
 export default {
-  name:"singer",
+  name: "singer",
   data() {
     return {
       tags: {}, //包含的tag
@@ -88,8 +88,8 @@ export default {
   },
   methods: {
     scroll(e) {
-      if(this.cur_page==10){
-        return ;
+      if (this.cur_page == 10) {
+        return;
       }
       var scrollTop = e.target.scrollTop;
       var wrapperHeight = e.target.clientHeight;
@@ -158,7 +158,8 @@ export default {
 .singer-wrapper {
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  position: absolute;
+  overflow-y: scroll;
 }
 .singer {
   width: 100%;

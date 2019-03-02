@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="list-wrapper">
     <div class="title">
         {{titleList[title]}}
     </div>
@@ -52,11 +52,17 @@ export default {
 };
 </script>
 <style scoped>
+.list-wrapper{
+  position:absolute;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
 .title{
-    font-size:20px;
-    padding:8px 7px;
-    background: #fff;
-    border-radius: 3px;
+  font-size:20px;
+  padding:8px 7px;
+  background: #fff;
+  border-radius: 3px;
 }
 .play-wrapper {
   width: 100%;
