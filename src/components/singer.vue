@@ -60,6 +60,12 @@
         </div>
       </div>
     </div>
+    <div class="loading">
+      <div class="img-wrapper" v-show="singerList.length!=800">
+        <img src="../assets/img/loading.svg">
+      </div>
+      到底了！
+    </div>
   </div>
 </template>
 <script>
@@ -93,7 +99,7 @@ export default {
       }
       var scrollTop = e.target.scrollTop;
       var wrapperHeight = e.target.clientHeight;
-      if (scrollTop == this.singerHeight - wrapperHeight) {
+      if (scrollTop -30== this.singerHeight - wrapperHeight) {
         this.currentTags.sin = 80 * this.cur_page; //sin歌曲开始序号，一次80个歌手
         this.currentTags.cur_page = ++this.cur_page;
         this.getData(this.currentTags);
@@ -136,7 +142,6 @@ export default {
   },
   updated() {
     this.singerHeight = this.$refs.singer.clientHeight;
-
     if (this.style) {
       // return;
     }
@@ -206,7 +211,7 @@ export default {
   clear: both;
 }
 .singer-pic-item {
-  width: calc(100% / 3);
+  width: calc(100% / 4);
   float: left;
   text-align: center;
   padding: 5px 0 14px 0px;
@@ -239,5 +244,14 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+.loading {
+  text-align: center;
+  height: 30px;
+  overflow: hidden;
+}
+.img-wrapper img {
+  height: 30px;
+  height: 30px;
 }
 </style>

@@ -16,15 +16,22 @@
         <div class="more" @click="moreBtn(item.data.songname)">
           <span class="iconfont">&#xe634;</span>
         </div>
-      </li> -->
-      <list-item v-for="(item,index) in songList" 
-                  :index="index+1"
-                  :data="item.data"
-                  :key="index"
-                  @play="play"
-                  @moreBtn="moreBtn"
-                  ></list-item>
+      </li>-->
+      <list-item
+        v-for="(item,index) in songList"
+        :index="index+1"
+        :data="item.data"
+        :key="index"
+        @play="play"
+        @moreBtn="moreBtn"
+      ></list-item>
     </ul>
+    <div class="loading">
+      <div class="img-wrapper" v-show="songList.length!=300">
+        <img src="../assets/img/loading.svg">
+      </div>
+      到底了！
+    </div>
   </div>
 </template>
 <script>
@@ -32,9 +39,9 @@
 import getRank from "../assets/js/getRank";
 import getMedia from "../assets/js/getMedia";
 //components
-import ListItem from "./listItem"
+import ListItem from "./listItem";
 export default {
-  name:"rank",
+  name: "rank",
   data() {
     return {
       page: 0,
@@ -43,7 +50,7 @@ export default {
     };
   },
   created() {
-    this.getRankData(this.page)
+    this.getRankData(this.page);
   },
   watch: {
     page(page) {
@@ -69,27 +76,37 @@ export default {
       });
     },
     scroll(e) {
-      if(this.page==9){
-        return ;
+      if (this.page == 9) {
+        return;
       }
       var scrollTop = e.target.scrollTop;
       var wrapperHeight = e.target.clientHeight;
-      if (scrollTop == this.ulHeight - wrapperHeight) {
+      console.log(scrollTop, this.ulHeight, wrapperHeight);
+      if (this.ulHeight - scrollTop == wrapperHeight - 30) {
         this.page++;
-        console.log(this.page)
+        console.log(this.page);
       }
     }
   },
-  components:{
+  components: {
     ListItem
   }
 };
 </script>
 <style>
 .rank-wrapper {
-  position:absolute;
+  position: absolute;
   width: 100%;
   height: 100%;
   overflow-y: scroll;
+}
+.loading {
+  text-align: center;
+  height: 30px;
+  overflow: hidden;
+}
+.img-wrapper img {
+  height: 30px;
+  height: 30px;
 }
 </style>
