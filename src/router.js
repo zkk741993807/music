@@ -6,6 +6,7 @@ Vue.use(VueRouter);
 import MyInfo from "./components/myInfo"
 import Rank from "./components/rank"
 import Singer from "./components/singer"
+import SingerSong from "./components/singer-song"
 import MyList from "./components/myInfo/myList"
 export default new VueRouter({
     mode:"history",
@@ -27,6 +28,11 @@ export default new VueRouter({
             component:Singer
         },
         {
+            path:"/singer/singer-song/:mid",
+            name:"singerSong",
+            component:SingerSong
+        },
+        {
             path:"/myInfo",
             name:"myInfo",
             component:MyInfo
@@ -36,5 +42,6 @@ export default new VueRouter({
             name:"myList",
             component:MyList
         }
+        
     ]
 })

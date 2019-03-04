@@ -48,14 +48,17 @@
         <div class="singer-list">
           <ul class="singer-container">
             <!-- js渲染 -->
-            <li class="singer-pic-item" v-for="item in singerList" :key="item.singer_id">
-              <a href="./html/songer.html?singer_mid=0013RsPD3Xs0FG">
+            <router-link 
+            tag="li"
+            :to="{name:'singerSong',params:{mid:item.singer_mid}}"
+            class="singer-pic-item" v-for="item in singerList" :key="item.singer_id">
+              <a href="#">
                 <div class="pic-container">
                   <img :src="item.singer_pic" @error="imgLoadError">
                 </div>
               </a>
               <div class="singer-name">{{ item.singer_name }}</div>
-            </li>
+            </router-link> 
           </ul>
         </div>
       </div>

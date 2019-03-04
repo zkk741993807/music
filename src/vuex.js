@@ -5,6 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        headerHide:false,//歌手歌曲展示页面需要使header display：none 保证歌手图片底部开始显示
         moreAlertData: "",//点击歌曲列表后更多按钮后存储歌曲信息
         mediaUrl: "",
         currentPlayInfo: "",
@@ -16,6 +17,9 @@ export default new Vuex.Store({
         audioObj: null
     },
     mutations: {
+        setHeaderHide(state,flag){
+            state.headerHide=flag;
+        },
         showMoreAlert(state, data) {
             state.moreAlertData = data;
         },

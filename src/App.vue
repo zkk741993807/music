@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <my-header class="header"></my-header>
+    <my-header class="header" v-show="!headerHide"></my-header>
     <my-content class="content" ></my-content>
     <my-footer class="footer" ref="footer"></my-footer>
     <play class="play" ref="play" :style="{transform}"></play>
@@ -27,6 +27,7 @@ export default {
   },
   computed: {
     ...mapState({
+      headerHide:state=>state.headerHide,
       moreAlertData: state => state.moreAlertData
     })
   },
@@ -80,7 +81,6 @@ export default {
 }
 .content {
   flex-grow: 1;
-  margin: 0px 8px;
   overflow: hidden;
   position: relative;
 }

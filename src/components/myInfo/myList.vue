@@ -10,16 +10,13 @@
           :index="index+1"
           :data="item"
           :key="index"
-          @play="play"
-          @moreBtn="moreBtn"
         ></list-item>
       </ul>
     </div>
   </div>
 </template>
 <script>
-//js
-import getMedia from "../../assets/js/getMedia";
+
 //components
 import ListItem from "../listItem";
 export default {
@@ -39,30 +36,24 @@ export default {
   components: {
     ListItem
   },
-  methods: {
-    moreBtn(data) {
-      this.$store.commit("showMoreAlert", data);
-    },
-    play(data) {
-      getMedia(data.songmid, data.strMediaMid, url => {
-        this.$store.commit("setMediaUrl", url);
-      });
-    }
-  }
 };
 </script>
 <style scoped>
-.list-wrapper{
-  position:absolute;
+.list-wrapper {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
+  overflow: hidden;
 }
-.title{
-  font-size:20px;
-  padding:8px 7px;
+.title {
+  font-size: 20px;
+  padding: 8px 7px;
   background: #fff;
   border-radius: 3px;
+}
+.wrapper{
+  overflow: scroll;
 }
 .play-wrapper {
   width: 100%;

@@ -17,17 +17,21 @@
   </li>
 </template>
 <script>
+import getMedia from "../assets/js/getMedia";
 export default {
-  props: ["index","data"],
+  props: ["index", "data"],
   data() {
     return {};
   },
   methods: {
-    play(data) {
-      this.$emit("play", data);
+    moreBtn(name) {
+      this.$store.commit("showMoreAlert", name);
     },
-    moreBtn(data) {
-      this.$emit("moreBtn", data);
+    play(data) {
+      this.$store.commit("setCurrentPlayInfo", data);
+      getMedia(data.songmid, data.strMediaMid, url => {
+        this.$store.commit("setMediaUrl", url);
+      });
     }
   }
 };

@@ -58,6 +58,9 @@ export default {
 };
 </script>
 <style scoped>
+.list-wrapper{
+    margin: 0px 8px;
+}
 .list-item {
   display: flex;
   background: #fff;

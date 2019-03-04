@@ -22,22 +22,18 @@
         :index="index+1"
         :data="item.data"
         :key="index"
-        @play="play"
-        @moreBtn="moreBtn"
       ></list-item>
     </ul>
     <div class="loading">
       <div class="img-wrapper" v-show="songList.length!=300">
         <img src="../assets/img/loading.svg">
-      </div>
-      到底了！
+      </div>到底了！
     </div>
   </div>
 </template>
 <script>
 //js
 import getRank from "../assets/js/getRank";
-import getMedia from "../assets/js/getMedia";
 //components
 import ListItem from "./listItem";
 export default {
@@ -52,11 +48,6 @@ export default {
   created() {
     this.getRankData(this.page);
   },
-  watch: {
-    page(page) {
-      this.getRankData(this.page);
-    }
-  },
   updated() {
     this.ulHeight = this.$refs.ul.clientHeight;
   },
@@ -66,25 +57,14 @@ export default {
         this.songList = this.songList.concat(data.songlist);
       });
     },
-    moreBtn(name) {
-      this.$store.commit("showMoreAlert", name);
-    },
-    play(data) {
-      this.$store.commit("setCurrentPlayInfo", data);
-      getMedia(data.songmid, data.strMediaMid, url => {
-        this.$store.commit("setMediaUrl", url);
-      });
-    },
     scroll(e) {
       if (this.page == 9) {
         return;
       }
       var scrollTop = e.target.scrollTop;
       var wrapperHeight = e.target.clientHeight;
-      console.log(scrollTop, this.ulHeight, wrapperHeight);
       if (this.ulHeight - scrollTop == wrapperHeight - 30) {
-        this.page++;
-        console.log(this.page);
+        this.getRankData(++this.page);
       }
     }
   },
@@ -96,6 +76,8 @@ export default {
 <style>
 .rank-wrapper {
   position: absolute;
+  padding:0px 8px;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
   overflow-y: scroll;
