@@ -10,6 +10,7 @@
           :index="index+1"
           :data="item"
           :key="index"
+          :type="title"
         ></list-item>
       </ul>
     </div>

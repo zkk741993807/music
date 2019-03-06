@@ -16,21 +16,28 @@
       <div class="item love" @click="love">
         <span class="iconfont">{{ isLove ?"&#xe6ca;":"&#xe6c9;"}}</span>
       </div>
-      {{index}}
     </div>
   </div>
 </template>
 <script>
 import {mapState} from "vuex";
+import getMedia from "../../assets/js/getMedia";
 export default {
   props: ["value"],
   data() {
     return {
       isOneloop: false,
       isLove: false,
-      length: 5,
-      index: 0
     };
+  },
+  watch: {
+    index(i){
+      var data=this.currentPlayList[i];
+      data=data.data||data.musicData;//排行榜返回数据在data中，歌手歌曲返回数据在musicData中
+      getMedia(data.songmid, data.strMediaMid, url => {
+        this.$store.commit("setMediaUrl", url);
+      });
+    }
   },
   methods: {
     love() {
@@ -40,26 +47,33 @@ export default {
       this.isOneloop = !this.isOneloop;
     },
     play() {
+      console.log(this.index,"length")
       this.$store.commit("setPlayState",!this.playState);
     },
     prev() {
-      if (this.index == 0) {
-        this.index = this.length - 1;
+      var index=this.index;
+      if (index == 0) {
+        index = this.currentPlayList.length - 1;
       } else {
-        this.index--;
+        index--;
       }
+      this.$store.commit("setIndex",index);
     },
     next() {
-      if (this.index == this.length - 1) {
-        this.index = 0;
+      var index=this.index;
+      if (index == this.currentPlayList.length - 1) {
+        index = 0;
       } else {
-        this.index++;
+        index++;
       }
+      this.$store.commit("setIndex",index);
     }
   },
   computed: {
     ...mapState({
-      playState:state=>state.playState
+      playState:state=>state.playState,
+      index:state=>state.index,
+      currentPlayList:state=> state[state.type]
     })
   },
 };

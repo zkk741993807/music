@@ -3,10 +3,12 @@
     <div class="list">
       <div class="list-header">
         <div class="arrow">
-          <span class="iconfont">&#xe626;</span>
+          <span class="iconfont" @click="back">&#xe626;</span>
         </div>
-        <img :src="picUrl">
-        <div class="title">{{page}}</div>
+        <div class="img-wrapper">
+          <img :src="picUrl">
+        </div>
+        <div class="title">{{title}}</div>
       </div>
       <div class="song-wrapper" @scroll.stop="scroll">
         <ul class="song" ref="ulSong">
@@ -15,10 +17,11 @@
             :index="index+1"
             :data="item.musicData"
             :key="index"
+            :type="'singerSongList'"
           ></list-item>
         </ul>
         <div class="loading">
-          <div class="loading-img" v-show="list.length!=total">
+          <div class="loading-img" v-show="!list.length||list.length!=total">
             <img src="../assets/img/loading.svg">
           </div>到底了！
         </div>
@@ -40,28 +43,32 @@ export default {
       picUrl: "",
       ulSongHeight: 0,
       page: 0,
-      mid:"",
-      total:0,//歌手有多少首歌
+      mid: "",
+      total: 0 //歌手有多少首歌
     };
   },
   methods: {
+    back() {
+      window.history.go(-1);
+    },
     scroll(e) {
-      if(this.total==this.list.length){
-        return ;
+      if (this.total == this.list.length) {
+        return;
       }
       var scrollTop = e.target.scrollTop;
       var wrapperHeight = e.target.clientHeight;
       console.log(scrollTop, wrapperHeight);
       if (this.ulSongHeight - scrollTop == wrapperHeight - 30) {
-        this.getData(++this.page)
+        this.getData(++this.page);
       }
     },
     getData(page) {
       GetSong(this.mid, page, data => {
         data = data.data;
-        this.total=data.total;
+        this.total = data.total;
         this.title = data.singer_name;
         this.list = this.list.concat(data.list);
+        this.$store.commit("setSingerSongList",this.list);
       });
     }
   },
@@ -70,7 +77,9 @@ export default {
     //改变header 显示状态
     // 获取route params
     this.mid = this.$route.params.mid;
-    this.picUrl = `https://y.gtimg.cn/music/photo_new/T001R300x300M000${this.mid}.jpg?max_age=2592000`;
+    this.picUrl = `https://y.gtimg.cn/music/photo_new/T001R300x300M000${
+      this.mid
+    }.jpg?max_age=2592000`;
     this.getData(this.page);
   },
   destroyed() {
@@ -108,6 +117,7 @@ export default {
 .list-header img {
   width: 100%;
   height: 300px;
+  opacity: 0.5;
 }
 .arrow,
 .title {

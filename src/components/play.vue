@@ -10,6 +10,9 @@
   </div>
 </template>
 <script>
+//js
+
+//components
 import SmallPlay from "./smallPlay";
 import NormalPlay from "./normalPlay";
 
@@ -18,7 +21,8 @@ export default {
   data() {
     return {
       smallShow: true,
-      audio: null
+      audio: null,
+      end:false
     };
   },
   mounted() {
@@ -39,11 +43,15 @@ export default {
      this.$store.commit("setAudioObj",e.target);
     },
     playEnd(){
+      this.end=true;
       this.$store.commit("setPlayState",false);
     }
   },
   watch: {
     playState() {
+      if(this.end){//避免播放完成后再次播放
+        return ;
+      }
       this.play();
     }
   },
@@ -71,9 +79,16 @@ export default {
   width: 100%;
   z-index: 1000;
   background: #fff;
+  transition: all 0.5;
 }
 .normal-play {
   opacity: 0;
+  position: relative;
+  z-index:0;
+  background: #fff;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 .zIndex {
   z-index: -1;

@@ -19,7 +19,7 @@
 <script>
 import getMedia from "../assets/js/getMedia";
 export default {
-  props: ["index", "data"],
+  props: ["index", "data","type"],
   data() {
     return {};
   },
@@ -28,6 +28,8 @@ export default {
       this.$store.commit("showMoreAlert", name);
     },
     play(data) {
+      this.$store.commit("setType",this.type);
+      this.$store.commit("setIndex",this.index-1);
       this.$store.commit("setCurrentPlayInfo", data);
       getMedia(data.songmid, data.strMediaMid, url => {
         this.$store.commit("setMediaUrl", url);

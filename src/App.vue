@@ -17,6 +17,7 @@ import Play from "./components/play";
 import { mapState } from "vuex";
 import DropDown from "./assets/util/dropDown";
 import getMedia from "./assets/js/getMedia"
+import Storage from "./assets/util/storage"
 export default {
   name: "app",
   data() {
@@ -25,10 +26,15 @@ export default {
       transform: "translate(0, 0)"
     };
   },
+  created() {
+    var rankList=Storage.getStorage("rankList");
+    this.$store.commit("setRankList",rankList);
+  },
   computed: {
     ...mapState({
       headerHide:state=>state.headerHide,
-      moreAlertData: state => state.moreAlertData
+      moreAlertData: state => state.moreAlertData,
+      songList:state=>state.songList
     })
   },
   components: {
@@ -50,7 +56,7 @@ export default {
     this.transform = "translate(0," + percent + "%)";
     new DropDown(smallPlay, play.$el, footerHeight, function(dis) {
       var temp = this.clientHeight - dis - smallPlayHeight - footerHeight;
-      smallPlay.style.opacity = 1 - temp / 100;
+      smallPlay.style.zIndex = 1 - temp / 100>0?1:-1;
       footer.style.opacity = 1 - temp / 100;
       footer.style.zIndex = dis; //让footer衬与底层避免点击到
       normallPlay.style.opacity = temp / 100;
