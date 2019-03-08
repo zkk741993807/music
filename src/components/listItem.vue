@@ -19,23 +19,25 @@
 <script>
 import getMedia from "../assets/js/getMedia";
 export default {
-  props: ["index", "data","type"],
+  props: ["index", "data"],
   data() {
-    return {};
+    return {
+      songIndex:0,
+    };
   },
   methods: {
     moreBtn(name) {
       this.$store.commit("showMoreAlert", name);
     },
     play(data) {
-      this.$store.commit("setType",this.type);
-      this.$store.commit("setIndex",this.index-1);
+      this.$store.commit("setIndex", this.index - 1);
       this.$store.commit("setCurrentPlayInfo", data);
       getMedia(data.songmid, data.strMediaMid, url => {
         this.$store.commit("setMediaUrl", url);
       });
     }
-  }
+  },
+  created() {}
 };
 </script>
 <style scoped>

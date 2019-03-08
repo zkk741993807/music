@@ -1,5 +1,5 @@
 <template>
-  <div class="rank-wrapper" @scroll="scroll">
+  <div class="rank-wrapper" @scroll="scroll" @click="setType('rankList')">
     <ul ref="ul">
       <!-- <li class="rank-list-item" v-for=" item in songList" :key="item.cur_count">
         <a href="#" @click="play(item.data)">
@@ -17,7 +17,7 @@
           <span class="iconfont">&#xe634;</span>
         </div>
       </li>-->
-      <list-item v-for="(item,index) in songList" :index="index+1" :type="'rankList'" :data="item.data" :key="index"></list-item>
+      <list-item v-for="(item,index) in songList" :index="index+1" :data="item.data" :key="index"></list-item>
     </ul>
     <div class="loading">
       <div class="img-wrapper" v-show="songList.length!=300">
@@ -71,6 +71,9 @@ export default {
       if (this.ulHeight - scrollTop == wrapperHeight - 30) {
         this.getRankData(++this.page);
       }
+    },
+    setType(type) {
+      this.$store.commit("setType", type);
     }
   },
   components: {

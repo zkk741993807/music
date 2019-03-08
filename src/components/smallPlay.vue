@@ -1,8 +1,11 @@
 <template>
-  <div >
+  <div>
     <div class="smllplay-wrapper">
       <div class="pic">
-        <img v-if="playInfo" :src='"https://y.gtimg.cn/music/photo_new/T001R300x300M000"+playInfo.singer[0].mid+".jpg?max_age=2592000"'>
+        <img
+          v-if="playInfo"
+          :src="'https://y.gtimg.cn/music/photo_new/T001R300x300M000'+playInfo.singer[0].mid+'.jpg?max_age=2592000'"
+        >
       </div>
       <div class="song-info">
         <span class="name">{{playInfo.songname}}</span>
@@ -18,7 +21,7 @@
           <span class="iconfont">{{!playState ?"&#xe804;":"&#xe69d;"}}</span>
         </div>
       </div>
-      <div class="controller">
+      <div class="controller" @click="next">
         <div class="next">
           <span class="iconfont">&#xe7ff;</span>
         </div>
@@ -30,18 +33,28 @@
 import { mapState } from "vuex";
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     play() {
-      this.$store.commit("setPlayState",!this.playState);
+      this.$store.commit("setPlayState", !this.playState);
+    },
+    next() {
+      var index = this.index;
+      if (index == this.currentPlayList.length - 1) {
+        index = 0;
+      } else {
+        index++;
+      }
+      this.$store.commit("setIndex", index);
     }
   },
   computed: {
     ...mapState({
       playInfo: state => state.currentPlayInfo,
-      playState:state=>state.playState
+      playState: state => state.playState,
+      index: state => state.index,
+      currentPlayList: state => state[state.type]
     })
   }
 };
@@ -78,14 +91,14 @@ export default {
 }
 .song-info .name {
   font-size: 16px;
-  overflow:hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .song-info .singer {
   color: #ccc;
   font-size: 14px;
-  overflow:hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

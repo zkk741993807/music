@@ -31,8 +31,11 @@ export default {
     value(value) {
       this.audioObj.currentTime = (value / 100) * this.audioTotalTime;
     },
-    audioTotalTime(time) {
-      this.totalTime = FormatTime(time);
+    mediaUrl() {
+      this.audioObj.oncanplay=()=>{
+        var time = this.audioObj.duration;
+        this.totalTime = FormatTime(time);
+      }
     }
   },
   methods: {},
@@ -49,7 +52,8 @@ export default {
           return obj.duration;
         }
       },
-      audioObj: state => state.audioObj
+      audioObj: state => state.audioObj,
+      mediaUrl: state => state.mediaUrl
     })
   }
 };

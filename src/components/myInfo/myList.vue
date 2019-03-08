@@ -10,7 +10,6 @@
           :index="index+1"
           :data="item"
           :key="index"
-          :type="title"
         ></list-item>
       </ul>
     </div>
@@ -33,6 +32,7 @@ export default {
     var path=this.$route.params.path;
     this.title=path;
     this.list=this.$store.state[path];
+    this.$store.commit("setType", this.title);
   },
   components: {
     ListItem

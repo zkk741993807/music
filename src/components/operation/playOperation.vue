@@ -33,7 +33,8 @@ export default {
   watch: {
     index(i){
       var data=this.currentPlayList[i];
-      data=data.data||data.musicData;//排行榜返回数据在data中，歌手歌曲返回数据在musicData中
+      data=data.data||data.musicData||data;//排行榜返回数据在data中，歌手歌曲返回数据在musicData中,我的喜爱、播放、歌单列表数据直接放在[数组]中
+      this.$store.commit("setCurrentPlayInfo",data);
       getMedia(data.songmid, data.strMediaMid, url => {
         this.$store.commit("setMediaUrl", url);
       });
@@ -47,7 +48,6 @@ export default {
       this.isOneloop = !this.isOneloop;
     },
     play() {
-      console.log(this.index,"length")
       this.$store.commit("setPlayState",!this.playState);
     },
     prev() {

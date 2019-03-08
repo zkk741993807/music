@@ -58,13 +58,13 @@ export default {
   },
   created() {
     var playList = Storage.getStorage("playList");
-    playList && this.$store.commit("setPlayList", playList);
+    playList && this.$store.commit("storageTosetPlayList", playList);
 
     var loveList = Storage.getStorage("loveList");
-    loveList && this.$store.commit("setLoveList", loveList);
+    loveList && this.$store.commit("storageTosetLoveList", loveList);
 
     var songList = Storage.getStorage("songList");
-    songList && this.$store.commit("setSongList", songList);
+    songList && this.$store.commit("storagesetSongList", songList);
   }
 };
 </script>

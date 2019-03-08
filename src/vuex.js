@@ -33,13 +33,13 @@ export default new Vuex.Store({
         setSingerSongList(state, data) {
             state.singerSongList = data;
         },
-        setType(state, type) {
+        setType(state, type) {//标记当前播放列表名
             state.type = type;
         },
         setRankList(state, data) {
             state.rankList = data;
         },
-        setLoveList(state, data) {
+        setLoveList(state, data) {//喜爱歌曲列表
             var loveList = state.loveList;
             var length = loveList.length;
             var songid = data.songid;
@@ -52,7 +52,7 @@ export default new Vuex.Store({
             state.loveList.push(data);
             Storage.setStorage("loveList",state.loveList)
         },
-        setSongList(state, data) {
+        setSongList(state, data) {//
             var songList = state.songList;
             var length = songList.length;
             var songid = data.songid;
@@ -65,39 +65,37 @@ export default new Vuex.Store({
             state.songList.push(data);
             Storage.setStorage("songList",state.songList)
         },
-        setMediaUrl(state, url) {
+        setMediaUrl(state, url) {//当前播放歌曲url
             state.mediaUrl = url;
         },
-        setPlayList(state, data) {
+        storageTosetPlayList(state, data) {//通过stroge获取的数据设置播放歌曲列表
+            state.playList=data;//播放列表
+        },
+        storageTosetLoveList(state, data){
+            state.loveList=data;
+        },
+        storagesetSongList(state, data){
+            state.songList=data;
+        },
+        setCurrentPlayInfo(state, data) {//设置当前播放歌曲信息与播放列表
+            state.currentPlayInfo = data;
             var playList = state.playList
             var length = playList.length;
             for (let i = 0; i < length; i++) {
-                if (playList[i].songid == songid) {
+                if (playList[i].songid == data.songid) {
                     return;
                 }
             }
             state.playList.push(data);//播放列表
             Storage.setStorage("playList",state.playList)
         },
-        setCurrentPlayInfo(state, data) {
-            state.currentPlayInfo = data;
-            var songid = data.songid
-            var playList = state.playList
-            var length = playList.length;
-            for (let i = 0; i < length; i++) {
-                if (playList[i].songid == songid) {
-                    return;
-                }
-            }
-            state.playList.push(data);//播放列表
-        },
-        setPlayState(state, flag) {
+        setPlayState(state, flag) {//管理播放状态
             state.playState = flag;
         },
-        setPlayTime(state, time) {
+        setPlayTime(state, time) {//管理当前播放时间
             state.currentPlayTime = time;
         },
-        setAudioObj(state, audio) {
+        setAudioObj(state, audio) {//管理audio对象
             state.audioObj = audio;
         }
     }

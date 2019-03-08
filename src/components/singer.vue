@@ -43,22 +43,25 @@
         </ul>
       </div>
       <!-- 歌手列表 -->
-      <div class="singer-list-wrapper" :style="!show?{transform:style}:''">
+      <div class="singer-list-wrapper" :style="!show?{transform:style}:''" @click="setType('singerSongList')">
         <span class="iconfont" @click="show=!show">{{show?"&#xe61a;":"&#xe61b;"}}</span>
         <div class="singer-list">
           <ul class="singer-container">
             <!-- js渲染 -->
-            <router-link 
-            tag="li"
-            :to="{name:'singerSong',params:{mid:item.singer_mid}}"
-            class="singer-pic-item" v-for="item in singerList" :key="item.singer_id">
+            <router-link
+              tag="li"
+              :to="{name:'singerSong',params:{mid:item.singer_mid}}"
+              class="singer-pic-item"
+              v-for="item in singerList"
+              :key="item.singer_id"
+            >
               <a href="#">
                 <div class="pic-container">
                   <img :src="item.singer_pic" @error="imgLoadError">
                 </div>
               </a>
               <div class="singer-name">{{ item.singer_name }}</div>
-            </router-link> 
+            </router-link>
           </ul>
         </div>
       </div>
@@ -66,8 +69,7 @@
     <div class="loading">
       <div class="img-wrapper" v-show="singerList.length!=800">
         <img src="../assets/img/loading.svg">
-      </div>
-      到底了！
+      </div>到底了！
     </div>
   </div>
 </template>
@@ -87,22 +89,17 @@ export default {
       singerHeight: 0
     };
   },
-  watch: {
-    currentTags: {
-      handler: function(val, oldVal) {
-        //this.getData(this.currentTags);
-      },
-      deep: true
-    }
-  },
   methods: {
+    setType(type){
+      this.$store.commit("setType", type);
+    },
     scroll(e) {
       if (this.cur_page == 10) {
         return;
       }
       var scrollTop = e.target.scrollTop;
       var wrapperHeight = e.target.clientHeight;
-      if (scrollTop -30== this.singerHeight - wrapperHeight) {
+      if (scrollTop - 30 == this.singerHeight - wrapperHeight) {
         this.currentTags.sin = 80 * this.cur_page; //sin歌曲开始序号，一次80个歌手
         this.currentTags.cur_page = ++this.cur_page;
         this.getData(this.currentTags);
@@ -116,18 +113,20 @@ export default {
           if (str.includes(prop)) {
             var id = parseInt(target.dataset[prop]);
             this.currentTags[prop] = id;
-            this.getData(this.currentTags);
+            this.getData(this.currentTags, true); //options中数据改变了
             break;
           }
         }
       }
     },
-    getData(options) {
+    getData(options, flag = false) {
+      //flag确定options中数据是否改变
       getSinger(options, data => {
-        console.log(data);
         data = data.singerList.data;
         this.tags = data.tags;
-        this.singerList = this.singerList.concat(data.singerlist);
+        this.singerList = flag
+          ? data.singerlist
+          : this.singerList.concat(data.singerlist);
         for (var prop in data) {
           if (typeof data[prop] !== "object") {
             this.$set(this.currentTags, prop, data[prop]);
